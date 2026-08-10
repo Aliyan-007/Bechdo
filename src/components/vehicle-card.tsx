@@ -72,20 +72,20 @@ export function VehicleCard({
               loading="lazy"
             />
           ) : (
-            <div className="flex h-full w-full items-center justify-center text-[#616266] font-mono text-xs">
+            <div className="flex h-full w-full items-center justify-center text-[#616266] font-body text-sm">
               NO IMAGE
             </div>
           )}
           {isPlaceholder && (
-            <div className="absolute bottom-1 right-1 bg-black/75 px-1.5 py-0.5 rounded text-[9px] font-mono text-[#9A9994] flex items-center gap-1">
-              <ImageIcon className="h-2.5 w-2.5" />
+            <div className="absolute bottom-2 right-2 bg-black/80 px-2 py-1 rounded text-[10px] font-body text-[#9A9994] flex items-center gap-1">
+              <ImageIcon className="h-3 w-3" />
               <span>Illustrative placeholder</span>
             </div>
           )}
         </Link>
-        <div className="flex flex-col p-3 space-y-1">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-[#9A9994] uppercase tracking-wider">
+        <div className="flex flex-col p-4 space-y-3">
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-[11px] font-semibold text-[#9A9994] uppercase tracking-wider">
               {vehicle.brand}
             </span>
             {vehicle.badge && (
@@ -96,17 +96,17 @@ export function VehicleCard({
           </div>
           <Link
             href={href}
-            className="font-display text-base font-semibold text-[#EDEBE6] hover:text-[#E6C86E] transition-colors truncate block"
+            className="font-display text-lg sm:text-xl font-semibold text-[#EDEBE6] hover:text-[#E6C86E] transition-colors truncate block leading-tight"
           >
             {vehicle.model}{" "}
-            <span className="text-[#9A9994] font-normal">
+            <span className="text-[#9A9994] font-normal text-sm">
               {vehicle.variantName}
             </span>
           </Link>
-          <div className="font-mono-num text-sm font-semibold text-[#C9A227]">
+          <div className="font-body text-lg font-semibold text-[#C9A227]">
             {formatPriceRange(vehicle.priceMinLakh, vehicle.priceMaxLakh)}
           </div>
-          <div className="flex items-center gap-2 pt-1 text-xs text-[#9A9994] font-mono-num border-t border-[#2A2C30]/50">
+          <div className="flex flex-wrap items-center gap-2 pt-3 text-[12px] text-[#9A9994] font-body border-t border-[#2A2C30]/50">
             <span>{vehicle.engine}</span>
             <span>•</span>
             <span>{vehicle.transmission}</span>
@@ -123,7 +123,7 @@ export function VehicleCard({
       <div className="group relative flex flex-col sm:flex-row rounded-md border border-[#2A2C30] bg-[#17181B] overflow-hidden transition-all duration-200 hover:border-[#3E8A6C] hover:shadow-medium">
         <Link
           href={href}
-          className="sm:w-64 aspect-[16/10] sm:aspect-auto shrink-0 overflow-hidden bg-[#0E0F11] relative"
+          className="sm:w-72 aspect-[16/10] sm:aspect-auto shrink-0 overflow-hidden bg-[#0E0F11] relative"
         >
           {primaryImage ? (
             <img
@@ -133,22 +133,22 @@ export function VehicleCard({
               loading="lazy"
             />
           ) : (
-            <div className="flex h-full w-full items-center justify-center text-[#616266] font-mono text-xs">
+            <div className="flex h-full w-full items-center justify-center text-[#616266] font-body text-sm">
               NO IMAGE
             </div>
           )}
           {isPlaceholder && (
-            <div className="absolute bottom-1 right-1 bg-black/75 px-1.5 py-0.5 rounded text-[9px] font-mono text-[#9A9994] flex items-center gap-1">
-              <ImageIcon className="h-2.5 w-2.5" />
+            <div className="absolute bottom-2 right-2 bg-black/80 px-2 py-1 rounded text-[10px] font-body text-[#9A9994] flex items-center gap-1">
+              <ImageIcon className="h-3 w-3" />
               <span>Illustrative placeholder</span>
             </div>
           )}
         </Link>
         <div className="flex flex-1 flex-col justify-between p-4 sm:p-5">
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-semibold text-[#9A9994] uppercase tracking-wider">
+          <div className="space-y-3">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="text-[11px] font-semibold text-[#9A9994] uppercase tracking-wider">
                   {vehicle.brand}
                 </span>
                 <Badge variant="outline">{vehicle.bodyType}</Badge>
@@ -198,41 +198,41 @@ export function VehicleCard({
               className="font-display text-xl font-bold text-[#EDEBE6] hover:text-[#E6C86E] transition-colors block"
             >
               {vehicle.model}{" "}
-              <span className="text-[#9A9994] font-normal text-lg">
+              <span className="text-[#9A9994] font-normal text-sm sm:text-base">
                 {vehicle.variantName}
               </span>
             </Link>
 
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 text-xs text-[#9A9994] font-mono-num">
-              <div className="flex items-center gap-1.5 bg-[#1F2023] px-2 py-1 rounded-sm">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 text-[11px] sm:text-xs text-[#9A9994] font-body">
+              <div className="flex items-center gap-1.5 bg-[#1F2023] px-2 py-2 rounded-sm">
                 <Zap className="h-3.5 w-3.5 text-[#2F6B54]" />
-                <span>{vehicle.engine}</span>
+                <span className="truncate">{vehicle.engine}</span>
               </div>
-              <div className="flex items-center gap-1.5 bg-[#1F2023] px-2 py-1 rounded-sm">
+              <div className="flex items-center gap-1.5 bg-[#1F2023] px-2 py-2 rounded-sm">
                 <Gauge className="h-3.5 w-3.5 text-[#2F6B54]" />
-                <span>
+                <span className="truncate">
                   {vehicle.powerHp} HP • {vehicle.torqueNm} Nm
                 </span>
               </div>
-              <div className="flex items-center gap-1.5 bg-[#1F2023] px-2 py-1 rounded-sm">
+              <div className="flex items-center gap-1.5 bg-[#1F2023] px-2 py-2 rounded-sm">
                 <Users className="h-3.5 w-3.5 text-[#2F6B54]" />
-                <span>
+                <span className="truncate">
                   {vehicle.seating} Seats • {vehicle.transmission}
                 </span>
               </div>
-              <div className="flex items-center gap-1.5 bg-[#1F2023] px-2 py-1 rounded-sm">
+              <div className="flex items-center gap-1.5 bg-[#1F2023] px-2 py-2 rounded-sm">
                 <Fuel className="h-3.5 w-3.5 text-[#2F6B54]" />
-                <span>{vehicle.fuelType}</span>
+                <span className="truncate">{vehicle.fuelType}</span>
               </div>
             </div>
           </div>
 
-          <div className="flex items-center justify-between pt-4 mt-3 border-t border-[#2A2C30]/50">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pt-4 mt-3 border-t border-[#2A2C30]/50">
             <div>
-              <span className="text-xs text-[#616266] uppercase block">
+              <span className="text-[10px] text-[#616266] uppercase block">
                 Ex-Factory Price Range
               </span>
-              <span className="font-mono-num text-lg font-bold text-[#C9A227]">
+              <span className="font-body text-lg font-bold text-[#C9A227]">
                 {formatPriceRange(vehicle.priceMinLakh, vehicle.priceMaxLakh)}
               </span>
             </div>
@@ -279,56 +279,56 @@ export function VehicleCard({
           )}
         </Link>
         <div className="flex flex-col p-5 space-y-4">
-          <div className="flex items-start justify-between">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
             <div>
               <Link
                 href={href}
-                className="font-display text-2xl font-bold text-[#EDEBE6] hover:text-[#E6C86E] transition-colors block"
+                className="font-display text-2xl sm:text-3xl font-bold text-[#EDEBE6] hover:text-[#E6C86E] transition-colors block leading-tight"
               >
                 {vehicle.model}
               </Link>
-              <span className="text-sm text-[#9A9994]">
+              <span className="text-sm sm:text-base text-[#9A9994] block mt-1">
                 {vehicle.variantName} • {vehicle.bodyType}
               </span>
             </div>
-            <div className="text-right">
-              <span className="text-xs text-[#616266] block uppercase">
+            <div className="text-left sm:text-right">
+              <span className="text-[11px] text-[#616266] uppercase block">
                 Price
               </span>
-              <span className="font-mono-num text-lg font-bold text-[#C9A227]">
+              <span className="font-body text-lg font-bold text-[#C9A227]">
                 {formatPriceRange(vehicle.priceMinLakh, vehicle.priceMaxLakh)}
               </span>
             </div>
           </div>
 
-          <div className="grid grid-cols-3 gap-2 py-2 border-y border-[#2A2C30] font-mono-num text-xs text-[#9A9994]">
-            <div className="flex flex-col items-center justify-center p-2 bg-[#1F2023] rounded-sm">
-              <span className="text-[#616266] uppercase text-[10px]">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 py-2 border-y border-[#2A2C30] font-body text-sm text-[#9A9994]">
+            <div className="flex flex-col items-start justify-center p-3 bg-[#1F2023] rounded-sm">
+              <span className="text-[#616266] uppercase text-[10px] pb-1">
                 Engine
               </span>
-              <span className="font-semibold text-[#EDEBE6]">
+              <span className="font-semibold text-[#EDEBE6] leading-tight">
                 {vehicle.engine}
               </span>
             </div>
-            <div className="flex flex-col items-center justify-center p-2 bg-[#1F2023] rounded-sm">
-              <span className="text-[#616266] uppercase text-[10px]">
+            <div className="flex flex-col items-start justify-center p-3 bg-[#1F2023] rounded-sm">
+              <span className="text-[#616266] uppercase text-[10px] pb-1">
                 Power
               </span>
-              <span className="font-semibold text-[#EDEBE6]">
+              <span className="font-semibold text-[#EDEBE6] leading-tight">
                 {vehicle.powerHp} HP
               </span>
             </div>
-            <div className="flex flex-col items-center justify-center p-2 bg-[#1F2023] rounded-sm">
-              <span className="text-[#616266] uppercase text-[10px]">
+            <div className="flex flex-col items-start justify-center p-3 bg-[#1F2023] rounded-sm">
+              <span className="text-[#616266] uppercase text-[10px] pb-1">
                 Trans
               </span>
-              <span className="font-semibold text-[#EDEBE6]">
+              <span className="font-semibold text-[#EDEBE6] leading-tight">
                 {vehicle.transmission}
               </span>
             </div>
           </div>
 
-          <div className="flex items-center justify-between pt-1">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pt-1">
             <div className="flex items-center gap-2">
               <button
                 onClick={() => toggleFavorite(vehicle.id)}
@@ -380,21 +380,21 @@ export function VehicleCard({
               loading="lazy"
             />
           ) : (
-            <div className="flex h-full w-full items-center justify-center text-[#616266] font-mono text-xs">
+            <div className="flex h-full w-full items-center justify-center text-[#616266] font-body text-sm">
               NO IMAGE
             </div>
           )}
           {isPlaceholder && (
-            <div className="absolute bottom-1 right-1 bg-black/75 px-1.5 py-0.5 rounded text-[9px] font-mono text-[#9A9994] flex items-center gap-1">
+            <div className="absolute bottom-1 right-1 bg-black/75 px-2 py-1 rounded text-[10px] font-body text-[#9A9994] flex items-center gap-1">
               <ImageIcon className="h-2.5 w-2.5" />
               <span>Illustrative placeholder</span>
             </div>
           )}
         </Link>
-        <div className="absolute top-2.5 left-2.5 flex items-center gap-1.5">
+        <div className="absolute top-2.5 left-2.5 flex flex-wrap items-center gap-1.5">
           <Badge
             variant="secondary"
-            className="uppercase font-semibold text-[10px]"
+            className="uppercase font-semibold text-[10px] leading-none"
           >
             {vehicle.brand}
           </Badge>
@@ -407,7 +407,7 @@ export function VehicleCard({
                   ? "ev"
                   : "default"
               }
-              className="text-[10px]"
+              className="text-[10px] leading-none"
             >
               {vehicle.badge}
             </Badge>

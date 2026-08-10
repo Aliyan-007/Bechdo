@@ -60,6 +60,7 @@ export function EditorialNavbar({ allVehicles }: EditorialNavbarProps) {
     { href: "/brands", label: "BRANDS", icon: Compass },
     { href: "/compare", label: "COMPARE", icon: Scale, badge: compared.length },
     { href: "/history", label: "HISTORY", icon: History },
+    { href: "/price-history", label: "PRICE HISTORY", icon: History },
   ];
 
   return (

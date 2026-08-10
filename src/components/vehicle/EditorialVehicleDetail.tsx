@@ -28,6 +28,7 @@ import { useCompare } from "@/components/compare-provider";
 import { useFavorites } from "@/components/favorites-provider";
 import { EditorialGarage } from "@/components/editorial/EditorialGarage";
 import { EditorialVehicleGallery } from "@/components/vehicle/EditorialVehicleGallery";
+import { PriceHistoryChart } from "@/components/vehicle/PriceHistoryChart";
 import {
   submitCorrectionReportAction,
   type CorrectionReportInput,
@@ -205,6 +206,16 @@ export function EditorialVehicleDetail({
   };
 
   const trims = generateTrims();
+
+  const priceHistoryPoints = vehicle.priceHistories
+    .filter((ph) => ph.priceLakh !== null)
+    .map((ph) => ({
+      label: `${ph.year}-${String(ph.month).padStart(2, "0")}`,
+      value: ph.priceLakh as number,
+      priceType: ph.priceType,
+      currency: ph.currency,
+      note: ph.note,
+    }));
 
   const handleReportSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -421,40 +432,63 @@ export function EditorialVehicleDetail({
           </div>
 
           {/* Quick Powertrain & Output Box */}
-          <div className="grid grid-cols-2 gap-2 font-mono-num text-xs">
+          <div className="grid grid-cols-2 gap-2 font-body text-sm">
             <div className="p-3.5 rounded-sm border border-[#2A2C30] bg-[#17181B] space-y-1">
-              <span className="text-[#616266] uppercase text-[10px] block">
+              <span className="text-[#9A9994] uppercase text-[10px] tracking-widest block">
                 ENGINE
               </span>
-              <span className="font-bold text-[#EDEBE6] block text-sm">
+              <span className="font-semibold text-[#EDEBE6] block text-base leading-tight">
                 {vehicle.engine}
               </span>
             </div>
             <div className="p-3.5 rounded-sm border border-[#2A2C30] bg-[#17181B] space-y-1">
-              <span className="text-[#616266] uppercase text-[10px] block">
+              <span className="text-[#9A9994] uppercase text-[10px] tracking-widest block">
                 POWER • TORQUE
               </span>
-              <span className="font-bold text-[#EDEBE6] block text-sm">
+              <span className="font-semibold text-[#EDEBE6] block text-base leading-tight">
                 {vehicle.powerHp} HP • {vehicle.torqueNm} Nm
               </span>
             </div>
             <div className="p-3.5 rounded-sm border border-[#2A2C30] bg-[#17181B] space-y-1">
-              <span className="text-[#616266] uppercase text-[10px] block">
+              <span className="text-[#9A9994] uppercase text-[10px] tracking-widest block">
                 TRANSMISSION
               </span>
-              <span className="font-bold text-[#EDEBE6] block text-sm">
+              <span className="font-semibold text-[#EDEBE6] block text-base leading-tight">
                 {vehicle.transmission}
               </span>
             </div>
             <div className="p-3.5 rounded-sm border border-[#2A2C30] bg-[#17181B] space-y-1">
-              <span className="text-[#616266] uppercase text-[10px] block">
+              <span className="text-[#9A9994] uppercase text-[10px] tracking-widest block">
                 SEATING • FUEL
               </span>
-              <span className="font-bold text-[#EDEBE6] block text-sm">
+              <span className="font-semibold text-[#EDEBE6] block text-base leading-tight">
                 {vehicle.seating} SEATS • {vehicle.fuelType.toUpperCase()}
               </span>
             </div>
           </div>
+        </div>
+      </div>
+
+      <div className="rounded-sm border border-[#2A2C30] bg-[#17181B] p-6 mb-12">
+        <div className="flex items-start justify-between gap-4 flex-col md:flex-row">
+          <div className="space-y-2 max-w-2xl">
+            <h2 className="font-display text-2xl font-bold text-[#EDEBE6]">
+              Price History Trend
+            </h2>
+            <p className="text-sm font-mono leading-relaxed text-[#9A9994]">
+              Visualize the saved ex-factory price movement for this variant.
+              This feature surfaces historical market data at the top of the page.
+            </p>
+          </div>
+          <div className="text-right">
+            <span className="inline-flex items-center rounded-sm bg-[#2A2C30] px-3 py-2 text-xs font-mono uppercase tracking-[0.2em] text-[#9A9994]">
+              Market history feature
+            </span>
+          </div>
+        </div>
+
+        <div className="mt-6">
+          <PriceHistoryChart points={priceHistoryPoints} />
         </div>
       </div>
 
@@ -894,6 +928,18 @@ export function EditorialVehicleDetail({
                 prices across Pakistani market eras.
               </p>
             </div>
+
+            <PriceHistoryChart
+              points={vehicle.priceHistories
+                .filter((ph) => ph.priceLakh !== null)
+                .map((ph) => ({
+                  label: `${ph.year}-${String(ph.month).padStart(2, "0")}`,
+                  value: ph.priceLakh as number,
+                  priceType: ph.priceType,
+                  currency: ph.currency,
+                  note: ph.note,
+                }))}
+            />
 
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse text-sm font-mono">

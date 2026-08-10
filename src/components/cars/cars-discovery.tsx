@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
 import { EditorialVehicleCard } from "@/components/editorial/EditorialVehicleCard";
+import { PriceHistoryChart } from "@/components/vehicle/PriceHistoryChart";
 
 export interface DiscoveryVehicle {
   id: string;
@@ -72,6 +73,14 @@ export function CarsDiscovery({
   const [query, setQuery] = useState(qParam);
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+
+  const priceChartPoints = useMemo(() => {
+    const sample = initialVehicles.slice(0, 5);
+    return sample.map((vehicle, idx) => ({
+      label: `V${idx + 1}`,
+      value: vehicle.priceMaxLakh || vehicle.priceMinLakh,
+    }));
+  }, [initialVehicles]);
 
   const bodyTypes = ["Sedan", "Hatchback", "SUV", "Crossover", "Pickup", "MPV"];
   const fuelTypes = ["Petrol", "Hybrid", "Electric"];
@@ -418,6 +427,27 @@ export function CarsDiscovery({
               </span>
             )}
           </Button>
+        </div>
+      </div>
+
+      <div className="rounded-sm border border-[#2A2C30] bg-[#17181B] p-6 mb-8">
+        <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
+          <div className="space-y-2 max-w-2xl">
+            <h2 className="font-display text-2xl font-bold text-[#EDEBE6]">
+              Market Snapshot
+            </h2>
+            <p className="text-sm font-mono leading-relaxed text-[#9A9994]">
+              An at-a-glance view of current ex-factory price levels across verified catalog variants.
+            </p>
+          </div>
+          <div className="text-right">
+            <span className="inline-flex items-center rounded-sm bg-[#2A2C30] px-3 py-2 text-xs font-mono uppercase tracking-[0.2em] text-[#9A9994]">
+              Catalog price trend
+            </span>
+          </div>
+        </div>
+        <div className="mt-6">
+          <PriceHistoryChart points={priceChartPoints} />
         </div>
       </div>
 

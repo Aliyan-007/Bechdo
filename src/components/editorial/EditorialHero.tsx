@@ -62,22 +62,28 @@ export function EditorialHero({ totalVehicles, totalBrands }: EditorialHeroProps
               </p>
             </div>
 
-            {/* Precision Command Search Bar (No generic boxy containers) */}
-            <form onSubmit={handleSearchSubmit} className="relative max-w-lg">
-              <div className="relative flex items-center">
-                <Search className="absolute left-4 h-5 w-5 text-[#9A9994] pointer-events-none" />
+            {/* New Editorial Search Block */}
+            <form onSubmit={handleSearchSubmit} className="relative max-w-lg pt-4">
+              <label htmlFor="editorial-search" className="sr-only">
+                Search the archive
+              </label>
+              <div className="relative">
+                <div className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[#9A9994]">
+                  <Search className="h-5 w-5" />
+                </div>
                 <input
+                  id="editorial-search"
                   type="text"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Search catalog by model, chassis code, or alias (e.g. 'Grande', 'E170', 'Reborn')..."
-                  className="w-full h-14 rounded-sm border border-[#2A2C30] bg-[#141518] pl-12 pr-28 text-base text-[#EDEBE6] placeholder:text-[#616266] focus:border-[#C9A227] focus:outline-none transition-colors font-body shadow-subtle"
+                  placeholder="Search brands, models, trims, or keywords..."
+                  className="w-full h-14 rounded-none border border-[#2A2C30] bg-[#141518] pl-12 pr-32 text-base text-[#EDEBE6] placeholder:text-[#616266] focus:border-[#2F6B54] focus:outline-none transition-colors shadow-sm"
                 />
                 <Button
                   type="submit"
                   variant="primary"
                   size="sm"
-                  className="absolute right-2 h-10 px-5 font-mono text-xs font-semibold tracking-wider uppercase bg-[#2F6B54] hover:bg-[#3E8A6C] text-[#EDEBE6]"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 h-10 px-5 rounded-none font-mono text-xs font-semibold tracking-wider uppercase bg-[#2F6B54] hover:bg-[#3E8A6C] text-[#EDEBE6]"
                 >
                   SEARCH
                 </Button>
