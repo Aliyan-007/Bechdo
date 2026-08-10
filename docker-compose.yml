@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  rasta-auto:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: rasta-pakistan-archive
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+      PORT: "3000"
+      DATABASE_URL: ${DATABASE_URL}

@@ -1,0 +1,348 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Brand {
+  id                   String   @id @default(cuid())
+  name                 String   @unique
+  slug                 String   @unique
+  logoInitial          String
+  color                String
+  country              String
+  description          String
+  isPakistaniAssembled Boolean  @default(true)
+  models               Model[]
+
+  @@index([isPakistaniAssembled])
+}
+
+model Model {
+  id              String       @id @default(cuid())
+  brandId         String
+  name            String
+  slug            String       @unique
+  bodyType        String
+  popularityScore Int          @default(80)
+  isHistorical    Boolean      @default(false)
+  brand           Brand        @relation(fields: [brandId], references: [id], onDelete: Cascade)
+  generations     Generation[]
+  variants        Variant[]
+
+  @@index([brandId])
+  @@index([bodyType])
+}
+
+model Generation {
+  id         String     @id @default(cuid())
+  modelId    String
+  name       String
+  code       String
+  startYear  Int
+  endYear    Int?
+  isCurrent  Boolean    @default(true)
+  model      Model      @relation(fields: [modelId], references: [id], onDelete: Cascade)
+  facelifts  Facelift[]
+  variants   Variant[]
+
+  @@index([modelId])
+}
+
+model Facelift {
+  id           String     @id @default(cuid())
+  generationId String
+  name         String
+  year         Int
+  description  String?
+  generation   Generation @relation(fields: [generationId], references: [id], onDelete: Cascade)
+  variants     Variant[]
+
+  @@index([generationId])
+}
+
+model Variant {
+  id                 String                 @id
+  modelId            String
+  generationId       String?
+  faceliftId         String?
+  name               String
+  slug               String                 @unique
+  variantCount       Int                    @default(1)
+  priceMinLakh       Float
+  priceMaxLakh       Float
+  badge              String?
+  bodyType           String
+  fuelType           String
+  engine             String
+  transmission       String
+  seating            Int
+  mileageKmpl        Float?
+  powerHp            Int
+  torqueNm           Int
+  fuelTankL          Int?
+  bootSpaceL         Int?
+  groundClearanceMm  Int?
+  airbags            Int                    @default(2)
+  colors             String
+  isFeatured         Boolean                @default(false)
+  isPopular          Boolean                @default(false)
+  isRecentlyAdded    Boolean                @default(false)
+  releaseYear        Int                    @default(2024)
+  modelYear          Int?
+  
+  // Strict 3-Concept Separation Fields
+  status             String                 @default("CURRENT") // Market Availability: "CURRENT", "DISCONTINUED", "HISTORICAL", "UPCOMING"
+  marketStatus       String                 @default("LOCAL_CKD") // Pakistan Market Relationship: "LOCAL_CKD", "CBU", "PRIVATE_IMPORT", "HISTORICAL_PRESENCE", "OFFICIAL_MARKET", "UNKNOWN"
+  publicationStatus  String                 @default("PUBLISHED") // Editorial Workflow: "DRAFT", "RESEARCH", "REVIEW", "PUBLISHED", "ARCHIVED"
+  confidenceLevel    String                 @default("VERIFIED") // Data Verification: "VERIFIED", "PARTIALLY_VERIFIED", "ESTIMATED", "UNVERIFIED", "CONFLICTING"
+  
+  productionStartYear Int?
+  productionEndYear  Int?
+  sourceType         String                 @default("OFFICIAL_ASSEMBLER") // "OFFICIAL_ASSEMBLER", "MARKET_SURVEY", "HISTORICAL_ARCHIVE", "DEALERSHIP"
+  sourceUrl          String?
+  secondarySourceUrl String?
+  lastVerified       String                 @default("2026-08-09")
+  verificationStatus String                 @default("VERIFIED")
+  notes              String?
+
+  model              Model                  @relation(fields: [modelId], references: [id], onDelete: Cascade)
+  generation         Generation?            @relation(fields: [generationId], references: [id])
+  facelift           Facelift?              @relation(fields: [faceliftId], references: [id])
+  specification      Specification?
+  images             Image[]
+  priceHistories     PriceHistory[]
+  pakAvailability    PakistanAvailability?
+  features           VehicleFeature[]
+  favorites          Favorite[]
+  correctionReports  CorrectionReport[]
+  aliases            VariantAlias[]
+  evidences          VehicleEvidence[]
+
+  @@index([modelId])
+  @@index([bodyType])
+  @@index([fuelType])
+  @@index([status])
+  @@index([marketStatus])
+  @@index([publicationStatus])
+  @@index([confidenceLevel])
+  @@index([modelYear])
+  @@index([isFeatured])
+  @@index([isPopular])
+  @@index([isRecentlyAdded])
+  @@index([priceMinLakh, priceMaxLakh])
+}
+
+model VariantAlias {
+  id        String  @id @default(cuid())
+  variantId String
+  alias     String  // e.g. "Corolla Grande", "Grande X", "Altis Grande", "Reborn", "Indus Corolla", "Foxy"
+  variant   Variant @relation(fields: [variantId], references: [id], onDelete: Cascade)
+
+  @@index([variantId])
+  @@index([alias])
+}
+
+model Specification {
+  id                String  @id @default(cuid())
+  variantId         String  @unique
+  engineDesc        String
+  displacementCc    Int?
+  transmissionType  String
+  driveType         String  @default("FWD")
+  horsepower        Int
+  torqueNm          Int
+  topSpeedKmh       Int     @default(180)
+  acceleration0to100 Float  @default(11.5)
+  fuelEconomyCity   Float?
+  fuelEconomyHwy    Float?
+  fuelTankCapacityL Int?
+  bootCapacityL     Int?
+  clearanceMm       Int?
+  kerbWeightKg      Int     @default(1250)
+  lengthMm          Int     @default(4620)
+  widthMm           Int     @default(1775)
+  heightMm          Int     @default(1485)
+  wheelbaseMm       Int     @default(2700)
+  seatingCapacity   Int
+  airbagsCount      Int
+  variant           Variant @relation(fields: [variantId], references: [id], onDelete: Cascade)
+}
+
+model Image {
+  id              String   @id @default(cuid())
+  variantId       String
+  url             String
+  storagePath     String?  // Supabase Storage CDN path e.g. "vehicles/toy-corolla/exterior-0.svg"
+  category        String   // "exterior", "interior", "dashboard", "wheels", "technical", "historical"
+  caption         String?
+  sortOrder       Int      @default(0)
+  isPrimary       Boolean  @default(false)
+  altText         String?
+  width           Int?     @default(1200)
+  height          Int?     @default(800)
+  sourceName      String?
+  sourceUrl       String?
+  sourceType      String?  @default("OFFICIAL_PAKISTAN") // "OFFICIAL_MANUFACTURER", "OFFICIAL_PAKISTAN", "AUTHORIZED_DISTRIBUTOR", "OFFICIAL_PRESS", "OFFICIAL_BROCHURE", "HISTORICAL_ARCHIVE", "LEGITIMATE_SECONDARY", "PLACEHOLDER"
+  imageType       String?  @default("EXTERIOR_FRONT") // "EXTERIOR_FRONT", "EXTERIOR_REAR", "EXTERIOR_SIDE", "INTERIOR", "DASHBOARD", "ENGINE", "FEATURE", "HISTORICAL", "PRESS", "BROCHURE"
+  imageMatchLevel String?  @default("EXACT_VARIANT") // "EXACT_VARIANT", "MODEL_YEAR", "GENERATION", "MODEL_ONLY"
+  verificationStatus String? @default("VERIFIED") // "VERIFIED", "REVIEW_REQUIRED", "UNVERIFIED"
+  accessedAt      String?  @default("2026-08-09")
+  copyrightNotice String?  // e.g. "© 2026 Indus Motor Company / Press Kit"
+  license         String?  // e.g. "Manufacturer Media Kit", "Public Domain Archive"
+  isVerified      Boolean  @default(true)
+  variant         Variant  @relation(fields: [variantId], references: [id], onDelete: Cascade)
+
+  @@index([variantId, category])
+  @@index([isPrimary])
+  @@index([sourceType])
+  @@index([imageMatchLevel])
+  @@index([verificationStatus])
+}
+
+model PriceHistory {
+  id                 String  @id @default(cuid())
+  variantId          String
+  year               Int
+  month              Int
+  priceLakh          Float?  // Nullable to support unverified historical launch prices without data fabrication
+  priceType          String  @default("EX_FACTORY") // "EX_FACTORY", "LAUNCH_PRICE", "LISTED", "MSRP", "USED_AVG", "AUCTION_PRICE"
+  currency           String  @default("PKR")
+  source             String?
+  sourceUrl          String?
+  verificationStatus String  @default("VERIFIED") // "VERIFIED", "PARTIALLY_VERIFIED", "ESTIMATED", "UNVERIFIED"
+  note               String?
+  variant            Variant @relation(fields: [variantId], references: [id], onDelete: Cascade)
+
+  @@index([variantId, year])
+  @@index([priceType])
+}
+
+model PakistanAvailability {
+  id                 String  @id @default(cuid())
+  variantId          String  @unique
+  isLocallyAssembled Boolean @default(true)
+  assemblyPartner    String
+  launchYearPakistan Int
+  warrantyYears      Int     @default(3)
+  warrantyKm         Int     @default(75000)
+  status             String  @default("Available")
+  variant            Variant @relation(fields: [variantId], references: [id], onDelete: Cascade)
+}
+
+model Feature {
+  id              String           @id @default(cuid())
+  name            String           @unique
+  category        String
+  vehicleFeatures VehicleFeature[]
+}
+
+model VehicleFeature {
+  id         String  @id @default(cuid())
+  variantId  String
+  featureId  String
+  isStandard Boolean @default(true)
+  variant    Variant @relation(fields: [variantId], references: [id], onDelete: Cascade)
+  feature    Feature @relation(fields: [featureId], references: [id], onDelete: Cascade)
+
+  @@index([variantId])
+  @@index([featureId])
+}
+
+model Favorite {
+  id        String   @id @default(cuid())
+  variantId String
+  userId    String
+  createdAt DateTime @default(now())
+  variant   Variant  @relation(fields: [variantId], references: [id], onDelete: Cascade)
+
+  @@index([variantId])
+  @@index([userId])
+}
+
+model HistoricalEvent {
+  id          String  @id @default(cuid())
+  year        Int
+  decade      String
+  title       String
+  description String
+  brandName   String?
+  imageUrl    String?
+
+  @@index([year])
+  @@index([decade])
+}
+
+model AuditLog {
+  id            String   @id @default(cuid())
+  userId        String?
+  userEmail     String?
+  userRole      String?  // "ADMIN", "EDITOR"
+  action        String   // e.g. "CREATE_VEHICLE", "UPDATE_PRICE", "VERIFY_RECORD", "DELETE_VEHICLE", "REVIEW_CORRECTION"
+  entity        String   // e.g. "Variant", "Brand", "PriceHistory", "CorrectionReport", "Image"
+  entityId      String
+  previousValue String?  // JSON string
+  newValue      String?  // JSON string
+  createdAt     DateTime @default(now())
+
+  @@index([entity, entityId])
+  @@index([createdAt])
+  @@index([action])
+}
+
+model CorrectionReport {
+  id                  String    @id @default(cuid())
+  variantId           String
+  fieldReported       String
+  description         String
+  suggestedCorrection String
+  sourceUrl           String?
+  userEmail           String?
+  status              String    @default("OPEN") // "OPEN", "INVESTIGATING", "ACCEPTED", "REJECTED", "FIXED"
+  adminNote           String?
+  createdAt           DateTime  @default(now())
+  reviewedAt          DateTime?
+
+  variant             Variant   @relation(fields: [variantId], references: [id], onDelete: Cascade)
+
+  @@index([variantId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model Source {
+  id               String            @id @default(cuid())
+  title            String
+  publisher        String
+  sourceType       String            // e.g. "OFFICIAL_ASSEMBLER", "OFFICIAL_MANUFACTURER", "GOVERNMENT_RECORD", "HISTORICAL_ARCHIVE"
+  url              String?
+  publicationDate  String?
+  accessedAt       String?
+  reliabilityLevel String            // "PRIMARY_1", "ARCHIVE_2", "SECONDARY_3"
+  notes            String?
+  evidences        VehicleEvidence[]
+
+  @@index([sourceType])
+  @@index([reliabilityLevel])
+}
+
+model VehicleEvidence {
+  id                 String   @id @default(cuid())
+  variantId          String
+  sourceId           String
+  fieldName          String   // e.g. "ENGINE_SPEC", "PRICE_EX_FACTORY", "ASSEMBLY_CKD", "PAKISTAN_AVAILABILITY", "HISTORICAL_PRESENCE"
+  claimedValue       String?  // JSON or string
+  verificationStatus String   @default("VERIFIED") // "VERIFIED", "PARTIALLY_VERIFIED", "ESTIMATED", "UNVERIFIED", "CONFLICTING"
+  notes              String?
+  createdAt          DateTime @default(now())
+
+  variant            Variant  @relation(fields: [variantId], references: [id], onDelete: Cascade)
+  source             Source   @relation(fields: [sourceId], references: [id], onDelete: Cascade)
+
+  @@index([variantId])
+  @@index([sourceId])
+  @@index([fieldName])
+  @@index([verificationStatus])
+}

@@ -1,0 +1,265 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg: #0E0F11;
+    --surface: #17181B;
+    --surface-elevated: #1F2023;
+    --border: #2A2C30;
+    --border-hover: #3D4046;
+    --text: #EDEBE6;
+    --text-dim: #9A9994;
+    --text-faint: #616266;
+    --primary: #2F6B54;
+    --primary-hover: #3E8A6C;
+    --secondary: #C9A227;
+    --accent: #E6C86E;
+    --on-accent: #0E0F11;
+    --success: #2F6B54;
+    --warning: #C9A227;
+    --error: #B24A3C;
+    --info: #3D7399;
+    --radius-sm: 0.125rem;
+    --radius-md: 0.25rem;
+    --radius-lg: 0.375rem;
+    --shadow-subtle: 0 1px 2px rgba(0,0,0,0.25);
+    --shadow-medium: 0 4px 12px rgba(0,0,0,0.35);
+    --shadow-elevated: 0 12px 32px rgba(0,0,0,0.45);
+  }
+
+  /* Phase 10.1 Requirement 3 & 7: Premium Printed Automotive Magazine Light Theme */
+  [data-theme="light"] {
+    --bg: #EFEDE8;
+    --surface: #FFFFFF;
+    --surface-elevated: #E4E1DA;
+    --border: #D8D4CB;
+    --border-hover: #C5C0B4;
+    --text: #17181B;
+    --text-dim: #55564F;
+    --text-faint: #73746C;
+    --primary: #1F4D3D;
+    --primary-hover: #16342B;
+    --secondary: #97721A;
+    --accent: #856414;
+    --on-accent: #FFFFFF;
+    --success: #1F4D3D;
+    --warning: #97721A;
+    --error: #9A3B2E;
+    --info: #2B577A;
+    --shadow-subtle: 0 1px 2px rgba(0,0,0,0.06);
+    --shadow-medium: 0 4px 12px rgba(0,0,0,0.08);
+    --shadow-elevated: 0 12px 32px rgba(0,0,0,0.12);
+  }
+
+  * {
+    border-color: var(--border);
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body), sans-serif;
+    -webkit-font-smoothing: antialiased;
+    transition: background-color 280ms cubic-bezier(.2,.7,.2,1), color 280ms cubic-bezier(.2,.7,.2,1);
+  }
+}
+
+/* Typography scale */
+.font-display {
+  font-family: var(--font-display), serif;
+}
+.font-mono-num {
+  font-family: var(--font-mono), monospace;
+}
+
+/* Custom scrollbar for carousels and horizontal scrolls */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Shadow utilities */
+.shadow-subtle {
+  box-shadow: var(--shadow-subtle);
+}
+.shadow-medium {
+  box-shadow: var(--shadow-medium);
+}
+.shadow-elevated {
+  box-shadow: var(--shadow-elevated);
+}
+
+/* ==========================================================================
+   RASTA LIGHT MODE ARCHITECTURAL THEME OVERRIDES
+   Translates all showroom/archive dark tokens into a printed magazine
+   interface (Warm Ivory #EFEDE8, Paper #FFFFFF, Charcoal Typography #17181B).
+   ========================================================================== */
+
+/* Background canvas and surface mappings */
+[data-theme="light"] .bg-\[\#0E0F11\],
+[data-theme="light"] .bg-\[\#0E0F11\]\/95,
+[data-theme="light"] .bg-\[\#0E0F11\]\/90 {
+  background-color: var(--bg) !important;
+}
+
+[data-theme="light"] .bg-\[\#141518\],
+[data-theme="light"] .bg-\[\#141518\]\/60,
+[data-theme="light"] .bg-\[\#141518\]\/80,
+[data-theme="light"] .bg-\[\#141518\]\/90 {
+  background-color: #F6F4F0 !important;
+}
+
+[data-theme="light"] .bg-\[\#17181B\],
+[data-theme="light"] .bg-\[\#17181B\]\/60,
+[data-theme="light"] .bg-\[\#17181B\]\/80 {
+  background-color: var(--surface) !important;
+}
+
+[data-theme="light"] .bg-\[\#1F2023\],
+[data-theme="light"] .bg-\[\#1F2023\]\/60,
+[data-theme="light"] .bg-\[\#1F2023\]\/40 {
+  background-color: var(--surface-elevated) !important;
+}
+
+/* Tinted badge and section indicator backgrounds */
+[data-theme="light"] .bg-\[\#2F6B54\]\/15,
+[data-theme="light"] .bg-\[\#2F6B54\]\/20 {
+  background-color: rgba(31, 77, 61, 0.12) !important;
+}
+
+[data-theme="light"] .bg-\[\#C9A227\]\/15,
+[data-theme="light"] .bg-\[\#C9A227\]\/20 {
+  background-color: rgba(151, 114, 26, 0.12) !important;
+}
+
+[data-theme="light"] .bg-\[\#B24A3C\]\/10,
+[data-theme="light"] .bg-\[\#B24A3C\]\/15,
+[data-theme="light"] .bg-\[\#B24A3C\]\/20 {
+  background-color: rgba(154, 59, 46, 0.12) !important;
+}
+
+/* Primary and secondary button fills */
+[data-theme="light"] .bg-\[\#2F6B54\] {
+  background-color: #1F4D3D !important;
+  color: #FFFFFF !important;
+}
+[data-theme="light"] .hover\:bg-\[\#3E8A6C\]:hover {
+  background-color: #16342B !important;
+  color: #FFFFFF !important;
+}
+
+[data-theme="light"] .bg-\[\#C9A227\] {
+  background-color: #97721A !important;
+  color: #FFFFFF !important;
+}
+
+/* Text and typography color mappings */
+[data-theme="light"] .text-\[\#EDEBE6\] {
+  color: var(--text) !important;
+}
+[data-theme="light"] .text-\[\#9A9994\] {
+  color: var(--text-dim) !important;
+}
+[data-theme="light"] .text-\[\#616266\] {
+  color: var(--text-faint) !important;
+}
+[data-theme="light"] .text-\[\#C9A227\] {
+  color: #97721A !important;
+}
+[data-theme="light"] .text-\[\#E6C86E\] {
+  color: #856414 !important;
+}
+[data-theme="light"] .text-\[\#4EBA8E\] {
+  color: #1F4D3D !important;
+}
+[data-theme="light"] .text-\[\#E37A6D\],
+[data-theme="light"] .text-\[\#B24A3C\] {
+  color: #9A3B2E !important;
+}
+
+/* Text hover color mappings */
+[data-theme="light"] .hover\:text-\[\#EDEBE6\]:hover {
+  color: var(--text) !important;
+}
+[data-theme="light"] .hover\:text-\[\#C9A227\]:hover {
+  color: #97721A !important;
+}
+[data-theme="light"] .hover\:text-\[\#E6C86E\]:hover {
+  color: #856414 !important;
+}
+[data-theme="light"] .group:hover .group-hover\:text-\[\#C9A227\],
+[data-theme="light"] .group:hover .group-hover\:text-\[\#E6C86E\] {
+  color: #97721A !important;
+}
+
+/* Border and divider color mappings */
+[data-theme="light"] .border-\[\#2A2C30\],
+[data-theme="light"] .border-\[\#2A2C30\]\/80,
+[data-theme="light"] .border-\[\#2A2C30\]\/60,
+[data-theme="light"] .border-\[\#2A2C30\]\/50,
+[data-theme="light"] .border-\[\#2A2C30\]\/40 {
+  border-color: var(--border) !important;
+}
+
+[data-theme="light"] .border-\[\#3E8A6C\],
+[data-theme="light"] .border-\[\#3E8A6C\]\/40,
+[data-theme="light"] .border-\[\#4EBA8E\] {
+  border-color: #1F4D3D !important;
+}
+
+[data-theme="light"] .border-\[\#C9A227\],
+[data-theme="light"] .border-\[\#C9A227\]\/40,
+[data-theme="light"] .border-\[\#C9A227\]\/50,
+[data-theme="light"] .border-\[\#C9A227\]\/60,
+[data-theme="light"] .border-\[\#E6C86E\] {
+  border-color: #97721A !important;
+}
+
+[data-theme="light"] .divide-\[\#2A2C30\] > :not([hidden]) ~ :not([hidden]) {
+  border-color: var(--border) !important;
+}
+
+[data-theme="light"] .hover\:border-\[\#3E8A6C\]:hover {
+  border-color: #1F4D3D !important;
+}
+[data-theme="light"] .hover\:border-\[\#C9A227\]:hover {
+  border-color: #97721A !important;
+}
+[data-theme="light"] .hover\:bg-\[\#1F2023\]:hover {
+  background-color: var(--surface-elevated) !important;
+}
+[data-theme="light"] .hover\:bg-\[\#17181B\]:hover {
+  background-color: #F6F4F0 !important;
+}
+
+/* Preserve high-contrast dark overlay backdrops for lightbox and image badges */
+[data-theme="light"] .fixed.inset-0.bg-black\/95,
+[data-theme="light"] .fixed.inset-0.bg-black\/85,
+[data-theme="light"] .fixed.inset-0.bg-black\/80 {
+  background-color: rgba(14, 15, 17, 0.85) !important;
+  color: #EDEBE6 !important;
+}
+[data-theme="light"] .fixed.inset-0.bg-black\/95 .text-\[\#EDEBE6\],
+[data-theme="light"] .fixed.inset-0.bg-black\/85 .text-\[\#EDEBE6\],
+[data-theme="light"] .fixed.inset-0.bg-black\/80 .text-\[\#EDEBE6\] {
+  color: #EDEBE6 !important;
+}
+
+/* Ensure SVG illustration backgrounds inside hero match light mode surface */
+[data-theme="light"] svg rect[fill="#141518"] {
+  fill: #F6F4F0 !important;
+}
+[data-theme="light"] svg path[fill="#1F2023"] {
+  fill: #EBE7DF !important;
+}
+[data-theme="light"] svg path[fill="#17181B"] {
+  fill: #FFFFFF !important;
+}
+[data-theme="light"] svg circle[fill="#0E0F11"] {
+  fill: #EFEDE8 !important;
+}
