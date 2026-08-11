@@ -8,9 +8,14 @@ export const BrandSchema = z.object({
   country: z.string().min(2, "Country required"),
   description: z.string().min(10, "Description must be at least 10 chars"),
   isPakistaniAssembled: z.boolean().default(true),
+  parentCompany: z.string().optional(),
+  logoUrl: z.string().optional(),
+  officialWebsite: z.string().optional(),
+  pakistanDistributor: z.string().optional(),
+  isActive: z.boolean().optional().default(true),
 });
 
-export type BrandInput = z.infer<typeof BrandSchema>;
+export type BrandInput = z.input<typeof BrandSchema>;
 export type BrandFormInput = z.input<typeof BrandSchema>;
 
 // 2. Zod Schema for Vehicle Variant

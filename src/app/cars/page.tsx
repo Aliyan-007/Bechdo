@@ -47,6 +47,7 @@ export default async function CarsPage() {
     isFeatured: v.isFeatured,
     isPopular: v.isPopular,
     isRecentlyAdded: v.isRecentlyAdded,
+    isLocallyAssembled: v.marketStatus === "LOCAL_CKD",
   }));
 
   const brandNames = brands.map((b) => b.name);

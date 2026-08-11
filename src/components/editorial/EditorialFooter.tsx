@@ -35,15 +35,15 @@ export function EditorialFooter() {
           <div className="md:col-span-4 space-y-4">
             <Link href="/" className="flex items-center gap-3">
               <div className="flex h-9 w-9 items-center justify-center rounded-sm bg-[#2F6B54] text-[#EDEBE6] font-display font-bold text-xl">
-                R
+                B
               </div>
               <span className="font-display font-bold text-xl tracking-wider">
-                RASTA
+                BECH DO
               </span>
             </Link>
             <p className="text-xs font-mono text-[#9A9994] max-w-sm leading-relaxed">
-              160 verified variants • 36 manufacturers • 8 decades of history.
-              Pakistan&rsquo;s authoritative automotive publication and reference
+              200 verified variants • 40 manufacturers • 8 decades of history.
+              Pakistan&rsquo;s authoritative automotive marketplace and reference
               archive.
             </p>
             <div className="pt-2 flex items-center gap-2 text-xs font-mono text-[#616266]">
@@ -137,7 +137,7 @@ export function EditorialFooter() {
         {/* Bottom Copyright Notice */}
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs font-mono text-[#616266] gap-4">
           <p>
-            © {currentYear} RASTA Automotive Pakistan. All rights reserved.
+            © {currentYear} BECH DO Automotive Pakistan (<span className="font-nastaliq text-sm">بیچ دو</span>). All rights reserved.
             Ex-factory prices indicative and subject to change without notice by
             local assemblers.
           </p>

@@ -1,7 +1,12 @@
 import fs from "fs";
 import path from "path";
+import { PrismaClient } from "@prisma/client";
+import { PrismaLibSql } from "@prisma/adapter-libsql";
 import { importCatalog, type CatalogImportItem } from "../src/lib/importer";
-import { prisma } from "../src/lib/prisma";
+
+// Initialize Prisma 7 with LibSQL adapter
+const adapter = new PrismaLibSql({ url: "file:./dev.db" });
+const prisma = new PrismaClient({ adapter });
 
 async function main() {
   console.log("Starting Phase 6 Idempotent Database Seeding & UPSERT for RASTA...");

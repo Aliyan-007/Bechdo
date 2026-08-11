@@ -1,8 +1,10 @@
 import fs from "fs";
 import path from "path";
 import { PrismaClient } from "@prisma/client";
+import { PrismaLibSql } from "@prisma/adapter-libsql";
 
-const prisma = new PrismaClient();
+const adapter = new PrismaLibSql({ url: "file:./dev.db" });
+const prisma = new PrismaClient({ adapter });
 
 // Verified official manufacturer/distributor and legitimate archival photography map for Pakistani market vehicles
 const officialPhotoMap: Record<

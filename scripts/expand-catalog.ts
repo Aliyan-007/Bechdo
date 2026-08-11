@@ -1,7 +1,9 @@
 import { PrismaClient } from "@prisma/client";
+import { PrismaLibSql } from "@prisma/adapter-libsql";
 import { importCatalog, type CatalogImportItem } from "../src/lib/importer";
 
-const prisma = new PrismaClient();
+const adapter = new PrismaLibSql({ url: "file:./dev.db" });
+const prisma = new PrismaClient({ adapter });
 
 const expandedVehicles: CatalogImportItem[] = [
   // 1. Daewoo Racer (1990s Korean Yellow Cab / Private Era)

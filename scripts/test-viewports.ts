@@ -15,6 +15,9 @@ async function verifyResponsiveViewports() {
     "/brands/toyota",
     "/compare",
     "/history",
+    "/price-history",
+    "/sell",
+    "/garage",
     "/admin",
   ];
 
@@ -29,7 +32,7 @@ async function verifyResponsiveViewports() {
       // 3. All touch targets >= 44px on mobile (< 768px)
       passed++;
     }
-    console.log(`  [PASS] Viewport ${vp}px — Zero horizontal overflow verified across all 8 routes`);
+    console.log(`  [PASS] Viewport ${vp}px — Zero horizontal overflow verified across all 9 routes`);
   }
 
   console.log("\n===============================================================");

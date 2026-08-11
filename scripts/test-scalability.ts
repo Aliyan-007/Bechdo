@@ -1,6 +1,8 @@
 import { PrismaClient } from "@prisma/client";
+import { PrismaLibSql } from "@prisma/adapter-libsql";
 
-const prisma = new PrismaClient();
+const adapter = new PrismaLibSql({ url: "file:./dev.db" });
+const prisma = new PrismaClient({ adapter });
 
 /**
  * RASTA Phase 6 Scalability Benchmark Suite

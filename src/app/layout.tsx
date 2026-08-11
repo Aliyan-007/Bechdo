@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Poppins, IBM_Plex_Mono } from "next/font/google";
+import { Inter, IBM_Plex_Mono, Noto_Nastaliq_Urdu } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { FavoritesProvider } from "@/components/favorites-provider";
@@ -8,17 +8,15 @@ import { EditorialNavbar } from "@/components/editorial/EditorialNavbar";
 import { EditorialFooter } from "@/components/editorial/EditorialFooter";
 import { prisma } from "@/lib/prisma";
 
-const fontDisplay = Poppins({
+const fontDisplay = Inter({
   variable: "--font-display",
   subsets: ["latin"],
-  weight: ["500", "600", "700", "800"],
   display: "swap",
 });
 
 const fontBody = Inter({
   variable: "--font-body",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
   display: "swap",
 });
 
@@ -29,10 +27,17 @@ const fontMono = IBM_Plex_Mono({
   display: "swap",
 });
 
+const fontNastaliq = Noto_Nastaliq_Urdu({
+  variable: "--font-nastaliq",
+  subsets: ["arabic"],
+  weight: ["400", "700"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
-  title: "RASTA — New Cars in Pakistan | Automotive Intelligence & Discovery",
+  title: "BECH DO (بیچ دو) — New & Used Cars in Pakistan | Automotive Marketplace & Intelligence",
   description:
-    "Pakistan's definitive automotive intelligence and discovery platform. Track ex-factory prices, specifications, compare cars, and explore historical automotive data across 26 brands.",
+    "Pakistan's definitive automotive marketplace and intelligence platform. Track ex-factory prices, specifications, compare cars, and explore historical automotive data across 40 brands.",
   keywords: [
     "Pakistan Cars",
     "New Cars Pakistan",
@@ -40,7 +45,8 @@ export const metadata: Metadata = {
     "Honda Civic Price Pakistan",
     "Kia Sportage",
     "Car Comparison Pakistan",
-    "RASTA Auto",
+    "Bech Do",
+    "Bech Do Auto",
   ],
 };
 
@@ -107,7 +113,7 @@ export default async function RootLayout({
     <html
       lang="en"
       data-theme="dark"
-      className={`${fontDisplay.variable} ${fontBody.variable} ${fontMono.variable} h-full antialiased`}
+      className={`${fontDisplay.variable} ${fontBody.variable} ${fontMono.variable} ${fontNastaliq.variable} h-full antialiased dark`}
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col bg-[#0E0F11] text-[#EDEBE6]">

@@ -1,7 +1,9 @@
 import { PrismaClient } from "@prisma/client";
+import { PrismaLibSql } from "@prisma/adapter-libsql";
 import { importCatalog, type CatalogImportItem } from "../src/lib/importer";
 
-const prisma = new PrismaClient();
+const adapter = new PrismaLibSql({ url: "file:./dev.db" });
+const prisma = new PrismaClient({ adapter });
 
 const researchQueueVehicles: CatalogImportItem[] = [
   // 1. Honda Civic 9th Gen (Rebirth - 2013)

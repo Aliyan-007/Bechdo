@@ -37,8 +37,8 @@
     --border: #D8D4CB;
     --border-hover: #C5C0B4;
     --text: #17181B;
-    --text-dim: #55564F;
-    --text-faint: #73746C;
+    --text-dim: #5F5C56;
+    --text-faint: #5F5C56;
     --primary: #1F4D3D;
     --primary-hover: #16342B;
     --secondary: #97721A;
@@ -55,79 +55,26 @@
 
   * {
     border-color: var(--border);
-    box-sizing: border-box;
   }
 
   body {
     background-color: var(--bg);
     color: var(--text);
-    font-family: var(--font-body), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    line-height: 1.65;
-    letter-spacing: 0.01em;
-    text-rendering: optimizeLegibility;
+    font-family: var(--font-body), sans-serif;
     -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
     transition: background-color 280ms cubic-bezier(.2,.7,.2,1), color 280ms cubic-bezier(.2,.7,.2,1);
-  }
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6,
-  p,
-  span,
-  a,
-  button,
-  input,
-  textarea,
-  label {
-    letter-spacing: 0.01em;
   }
 }
 
 /* Typography scale */
 .font-display {
-  font-family: var(--font-display), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  letter-spacing: 0.015em;
-}
-.font-body {
-  font-family: var(--font-body), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--font-display), serif;
 }
 .font-mono-num {
-  font-family: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-family: var(--font-mono), monospace;
 }
-
-/* Improve readability for common Tailwind-generated text color classes. */
-.text-\[\#EDEBE6\] {
-  color: var(--text) !important;
-}
-.text-\[\#9A9994\] {
-  color: var(--text-dim) !important;
-}
-.text-\[\#616266\] {
-  color: var(--text-faint) !important;
-}
-.text-\[\#C9A227\] {
-  color: #D4B65D !important;
-}
-.text-\[\#4EBA8E\] {
-  color: #7DC4A8 !important;
-}
-.text-\[\#E6C86E\] {
-  color: #D4B65D !important;
-}
-.text-\[\#17181B\] {
-  color: var(--surface) !important;
-}
-
-/* Normalize spacing for typography blocks */
-.font-display,
-.font-body,
-.font-mono-num {
-  margin: 0;
-  padding: 0;
+.font-nastaliq {
+  font-family: var(--font-nastaliq), "Jameel Noori Nastaleeq", "Noto Nastaliq Urdu", "Nafees Nastaleeq", "Urdu Typesetting", serif;
 }
 
 /* Custom scrollbar for carousels and horizontal scrolls */
@@ -151,149 +98,242 @@
 }
 
 /* ==========================================================================
-   RASTA LIGHT MODE ARCHITECTURAL THEME OVERRIDES
-   Translates all showroom/archive dark tokens into a printed magazine
-   interface (Warm Ivory #EFEDE8, Paper #FFFFFF, Charcoal Typography #17181B).
+   BECH DO (بیچ دو) — PUBLICATION-GRADE PRINTED MAGAZINE LIGHT THEME
+   Built from scratch to translate all showroom archive tokens into an
+   authoritative printed automotive reference (Warm Ivory #EFEDE8, Paper
+   #FFFFFF, Tinted Stone #E4E1DA, and Deep Charcoal Ink #17181B).
    ========================================================================== */
 
-/* Background canvas and surface mappings */
+/* 1. Universal Substring Attribute Mappings for Canvas & Surfaces */
 [data-theme="light"] .bg-\[\#0E0F11\],
-[data-theme="light"] .bg-\[\#0E0F11\]\/95,
-[data-theme="light"] .bg-\[\#0E0F11\]\/90 {
-  background-color: var(--bg) !important;
+[data-theme="light"] *[class*="bg-[#0E0F11]"] {
+  background-color: #EFEDE8 !important;
 }
 
 [data-theme="light"] .bg-\[\#141518\],
-[data-theme="light"] .bg-\[\#141518\]\/60,
-[data-theme="light"] .bg-\[\#141518\]\/80,
-[data-theme="light"] .bg-\[\#141518\]\/90 {
+[data-theme="light"] *[class*="bg-[#141518]"] {
   background-color: #F6F4F0 !important;
 }
 
 [data-theme="light"] .bg-\[\#17181B\],
-[data-theme="light"] .bg-\[\#17181B\]\/60,
-[data-theme="light"] .bg-\[\#17181B\]\/80 {
-  background-color: var(--surface) !important;
+[data-theme="light"] *[class*="bg-[#17181B]"] {
+  background-color: #FFFFFF !important;
 }
 
 [data-theme="light"] .bg-\[\#1F2023\],
-[data-theme="light"] .bg-\[\#1F2023\]\/60,
-[data-theme="light"] .bg-\[\#1F2023\]\/40 {
-  background-color: var(--surface-elevated) !important;
+[data-theme="light"] *[class*="bg-[#1F2023]"] {
+  background-color: #E4E1DA !important;
 }
 
-/* Tinted badge and section indicator backgrounds */
-[data-theme="light"] .bg-\[\#2F6B54\]\/15,
-[data-theme="light"] .bg-\[\#2F6B54\]\/20 {
+/* 2. Tinted Section Badges & Highlights */
+[data-theme="light"] *[class*="bg-[#2F6B54]/"] {
   background-color: rgba(31, 77, 61, 0.12) !important;
 }
 
-[data-theme="light"] .bg-\[\#C9A227\]\/15,
-[data-theme="light"] .bg-\[\#C9A227\]\/20 {
+[data-theme="light"] *[class*="bg-[#C9A227]/"] {
   background-color: rgba(151, 114, 26, 0.12) !important;
 }
 
-[data-theme="light"] .bg-\[\#B24A3C\]\/10,
-[data-theme="light"] .bg-\[\#B24A3C\]\/15,
-[data-theme="light"] .bg-\[\#B24A3C\]\/20 {
+[data-theme="light"] *[class*="bg-[#B24A3C]/"] {
   background-color: rgba(154, 59, 46, 0.12) !important;
 }
 
-/* Primary and secondary button fills */
-[data-theme="light"] .bg-\[\#2F6B54\] {
+[data-theme="light"] *[class*="bg-[#3D7399]/"] {
+  background-color: rgba(43, 87, 122, 0.12) !important;
+}
+
+/* 3. Primary Solid Action Fills */
+[data-theme="light"] .bg-\[\#2F6B54\],
+[data-theme="light"] button.bg-\[\#2F6B54\] {
   background-color: #1F4D3D !important;
   color: #FFFFFF !important;
 }
-[data-theme="light"] .hover\:bg-\[\#3E8A6C\]:hover {
+
+[data-theme="light"] .hover\:bg-\[\#3E8A6C\]:hover,
+[data-theme="light"] button.hover\:bg-\[\#3E8A6C\]:hover {
   background-color: #16342B !important;
   color: #FFFFFF !important;
 }
 
-[data-theme="light"] .bg-\[\#C9A227\] {
+[data-theme="light"] .bg-\[\#C9A227\],
+[data-theme="light"] button.bg-\[\#C9A227\] {
   background-color: #97721A !important;
   color: #FFFFFF !important;
 }
 
-/* Text and typography color mappings */
-[data-theme="light"] .text-\[\#EDEBE6\] {
-  color: var(--text) !important;
+[data-theme="light"] .bg-\[\#B24A3C\],
+[data-theme="light"] button.bg-\[\#B24A3C\] {
+  background-color: #9A3B2E !important;
+  color: #FFFFFF !important;
 }
-[data-theme="light"] .text-\[\#9A9994\] {
-  color: var(--text-dim) !important;
+
+/* 4. Universal Substring Attribute Mappings for Text & Typography */
+[data-theme="light"] .text-\[\#EDEBE6\],
+[data-theme="light"] *[class*="text-[#EDEBE6]"],
+[data-theme="light"] h1,
+[data-theme="light"] h2,
+[data-theme="light"] h3,
+[data-theme="light"] h4,
+[data-theme="light"] h5,
+[data-theme="light"] h6 {
+  color: #17181B !important;
 }
-[data-theme="light"] .text-\[\#616266\] {
-  color: var(--text-faint) !important;
+
+[data-theme="light"] .text-\[\#9A9994\],
+[data-theme="light"] *[class*="text-[#9A9994]"] {
+  color: #5F5C56 !important;
 }
-[data-theme="light"] .text-\[\#C9A227\] {
+
+[data-theme="light"] .text-\[\#616266\],
+[data-theme="light"] *[class*="text-[#616266]"] {
+  color: #5F5C56 !important;
+}
+
+[data-theme="light"] .text-\[\#C9A227\],
+[data-theme="light"] *[class*="text-[#C9A227]"] {
   color: #97721A !important;
 }
-[data-theme="light"] .text-\[\#E6C86E\] {
+
+[data-theme="light"] .text-\[\#E6C86E\],
+[data-theme="light"] *[class*="text-[#E6C86E]"] {
   color: #856414 !important;
 }
-[data-theme="light"] .text-\[\#4EBA8E\] {
+
+[data-theme="light"] .text-\[\#4EBA8E\],
+[data-theme="light"] *[class*="text-[#4EBA8E]"] {
   color: #1F4D3D !important;
 }
+
 [data-theme="light"] .text-\[\#E37A6D\],
 [data-theme="light"] .text-\[\#B24A3C\] {
   color: #9A3B2E !important;
 }
 
-/* Text hover color mappings */
-[data-theme="light"] .hover\:text-\[\#EDEBE6\]:hover {
-  color: var(--text) !important;
+[data-theme="light"] .text-\[\#71A8D4\] {
+  color: #2B577A !important;
 }
-[data-theme="light"] .hover\:text-\[\#C9A227\]:hover {
+
+/* 5. Text Hover Color Mappings */
+[data-theme="light"] *[class*="hover:text-[#EDEBE6]"]:hover {
+  color: #17181B !important;
+}
+
+[data-theme="light"] *[class*="hover:text-[#C9A227]"]:hover {
   color: #97721A !important;
 }
-[data-theme="light"] .hover\:text-\[\#E6C86E\]:hover {
+
+[data-theme="light"] *[class*="hover:text-[#E6C86E]"]:hover {
   color: #856414 !important;
 }
+
 [data-theme="light"] .group:hover .group-hover\:text-\[\#C9A227\],
 [data-theme="light"] .group:hover .group-hover\:text-\[\#E6C86E\] {
   color: #97721A !important;
 }
 
-/* Border and divider color mappings */
+[data-theme="light"] .group:hover .group-hover\:text-\[\#EDEBE6\] {
+  color: #17181B !important;
+}
+
+/* 6. Universal Substring Attribute Mappings for Borders & Dividers */
 [data-theme="light"] .border-\[\#2A2C30\],
-[data-theme="light"] .border-\[\#2A2C30\]\/80,
-[data-theme="light"] .border-\[\#2A2C30\]\/60,
-[data-theme="light"] .border-\[\#2A2C30\]\/50,
-[data-theme="light"] .border-\[\#2A2C30\]\/40 {
-  border-color: var(--border) !important;
+[data-theme="light"] *[class*="border-[#2A2C30]"] {
+  border-color: #D8D4CB !important;
 }
 
 [data-theme="light"] .border-\[\#3E8A6C\],
-[data-theme="light"] .border-\[\#3E8A6C\]\/40,
-[data-theme="light"] .border-\[\#4EBA8E\] {
+[data-theme="light"] *[class*="border-[#3E8A6C]"],
+[data-theme="light"] *[class*="border-[#4EBA8E]"] {
   border-color: #1F4D3D !important;
 }
 
 [data-theme="light"] .border-\[\#C9A227\],
-[data-theme="light"] .border-\[\#C9A227\]\/40,
-[data-theme="light"] .border-\[\#C9A227\]\/50,
-[data-theme="light"] .border-\[\#C9A227\]\/60,
-[data-theme="light"] .border-\[\#E6C86E\] {
+[data-theme="light"] *[class*="border-[#C9A227]"],
+[data-theme="light"] *[class*="border-[#E6C86E]"] {
   border-color: #97721A !important;
 }
 
-[data-theme="light"] .divide-\[\#2A2C30\] > :not([hidden]) ~ :not([hidden]) {
-  border-color: var(--border) !important;
+[data-theme="light"] *[class*="divide-[#2A2C30]"] > :not([hidden]) ~ :not([hidden]) {
+  border-color: #D8D4CB !important;
 }
 
-[data-theme="light"] .hover\:border-\[\#3E8A6C\]:hover {
+[data-theme="light"] *[class*="hover:border-[#3E8A6C]"]:hover {
   border-color: #1F4D3D !important;
 }
-[data-theme="light"] .hover\:border-\[\#C9A227\]:hover {
+[data-theme="light"] *[class*="hover:border-[#C9A227]"]:hover {
   border-color: #97721A !important;
 }
-[data-theme="light"] .hover\:bg-\[\#1F2023\]:hover {
-  background-color: var(--surface-elevated) !important;
+
+[data-theme="light"] *[class*="hover:bg-[#1F2023]"]:hover {
+  background-color: #E4E1DA !important;
 }
-[data-theme="light"] .hover\:bg-\[\#17181B\]:hover {
+[data-theme="light"] *[class*="hover:bg-[#17181B]"]:hover {
   background-color: #F6F4F0 !important;
 }
 
-/* Preserve high-contrast dark overlay backdrops for lightbox and image badges */
+/* 7. ALL SECONDARY, PRESET & POPULAR BUTTONS IN LIGHT MODE (100% Guaranteed High-Contrast Charcoal #17181B) */
+[data-theme="light"] button:not(.bg-\[\#2F6B54\]):not(.bg-\[\#C9A227\]):not(.bg-\[\#B24A3C\]) {
+  background-color: #E4E1DA !important;
+  color: #17181B !important;
+  font-weight: 600 !important;
+  border-color: #C5C0B4 !important;
+}
+
+[data-theme="light"] button:not(.bg-\[\#2F6B54\]):not(.bg-\[\#C9A227\]):not(.bg-\[\#B24A3C\]):hover {
+  background-color: #D8D4CB !important;
+  color: #17181B !important;
+  font-weight: 600 !important;
+  border-color: #1F4D3D !important;
+}
+
+[data-theme="light"] button:disabled,
+[data-theme="light"] button.cursor-not-allowed {
+  background-color: #EFEDE8 !important;
+  color: #5F5C56 !important;
+  border-color: #D8D4CB !important;
+  opacity: 0.8 !important;
+}
+
+/* 8. Modals, Dialogs, Sheets & Drawers */
+[data-theme="light"] [role="dialog"],
+[data-theme="light"] [role="menu"] {
+  background-color: #FFFFFF !important;
+  color: #17181B !important;
+  border-color: #D8D4CB !important;
+}
+
+[data-theme="light"] [role="dialog"] h1,
+[data-theme="light"] [role="dialog"] h2,
+[data-theme="light"] [role="dialog"] h3,
+[data-theme="light"] [role="dialog"] h4,
+[data-theme="light"] [role="dialog"] p,
+[data-theme="light"] [role="dialog"] span,
+[data-theme="light"] [role="dialog"] div,
+[data-theme="light"] [role="dialog"] label {
+  color: inherit;
+}
+
+/* 9. Form Inputs, Selects, Search Boxes & Textareas */
+[data-theme="light"] input,
+[data-theme="light"] select,
+[data-theme="light"] textarea {
+  background-color: #FFFFFF !important;
+  color: #17181B !important;
+  border-color: #D8D4CB !important;
+}
+
+[data-theme="light"] input::placeholder,
+[data-theme="light"] textarea::placeholder {
+  color: #5F5C56 !important;
+}
+
+[data-theme="light"] input:focus,
+[data-theme="light"] select:focus,
+[data-theme="light"] textarea:focus {
+  border-color: #1F4D3D !important;
+}
+
+/* 10. Preserve high-contrast dark overlay backdrops for lightbox and image badges */
 [data-theme="light"] .fixed.inset-0.bg-black\/95,
 [data-theme="light"] .fixed.inset-0.bg-black\/85,
 [data-theme="light"] .fixed.inset-0.bg-black\/80 {
@@ -306,7 +346,7 @@
   color: #EDEBE6 !important;
 }
 
-/* Ensure SVG illustration backgrounds inside hero match light mode surface */
+/* 11. Ensure SVG illustration backgrounds inside hero match light mode surface */
 [data-theme="light"] svg rect[fill="#141518"] {
   fill: #F6F4F0 !important;
 }

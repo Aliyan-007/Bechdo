@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   }
 
-  const title = `${vehicle.model.brand.name} ${vehicle.model.name} ${vehicle.name} Price in Pakistan | RASTA`;
+  const title = `${vehicle.model.brand.name} ${vehicle.model.name} ${vehicle.name} Price in Pakistan | BECH DO (بیچ دو)`;
   const description = `Check ex-factory price, specs, 4-year price history, and features for the ${vehicle.model.brand.name} ${vehicle.model.name} ${vehicle.name} (${vehicle.bodyType}).`;
 
   return {
@@ -70,6 +70,16 @@ export default async function VehicleDetailPage({ params }: Props) {
         },
       },
       generation: true,
+      usedListings: {
+        where: { status: "ACTIVE" },
+        orderBy: { askingPriceLakh: "asc" },
+        include: {
+          inspectionReport: true,
+        },
+      },
+      reviews: {
+        orderBy: { createdAt: "desc" },
+      },
     },
   });
 
@@ -144,6 +154,8 @@ export default async function VehicleDetailPage({ params }: Props) {
     fuelType: vehicle.fuelType,
     engine: vehicle.engine,
     transmission: vehicle.transmission,
+    drivetrain: vehicle.drivetrain,
+    trimLevel: vehicle.trimLevel,
     seating: vehicle.seating,
     mileageKmpl: vehicle.mileageKmpl,
     powerHp: vehicle.powerHp,
@@ -159,6 +171,8 @@ export default async function VehicleDetailPage({ params }: Props) {
     pakAvailability: vehicle.pakAvailability,
     features: vehicle.features,
     generation: vehicle.generation,
+    usedListings: vehicle.usedListings,
+    reviews: vehicle.reviews,
   };
 
   const jsonLd = {
@@ -182,6 +196,27 @@ export default async function VehicleDetailPage({ params }: Props) {
     },
   };
 
+  const rawEvents = await prisma.historicalEvent.findMany({
+    where: {
+      OR: [
+        { relatedSlug: id },
+        { brandName: vehicle.model.brand.name },
+      ],
+    },
+    orderBy: { year: "asc" },
+    take: 6,
+  });
+
+  const historicalEvents = rawEvents.map((ev) => ({
+    id: ev.id,
+    year: ev.year,
+    decade: ev.decade,
+    title: ev.title,
+    description: ev.description,
+    brandName: ev.brandName,
+    eventCategory: ev.eventCategory,
+  }));
+
   return (
     <>
       <script
@@ -191,6 +226,7 @@ export default async function VehicleDetailPage({ params }: Props) {
       <EditorialVehicleDetail
         vehicle={mappedVehicle}
         similarVehicles={similarVehicles}
+        historicalEvents={historicalEvents}
       />
     </>
   );

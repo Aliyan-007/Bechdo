@@ -37,6 +37,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     setResolvedTheme(nextResolved);
     if (typeof document !== "undefined") {
       document.documentElement.setAttribute("data-theme", nextResolved);
+      document.documentElement.classList.remove("light", "dark");
+      document.documentElement.classList.add(nextResolved);
     }
   };
 

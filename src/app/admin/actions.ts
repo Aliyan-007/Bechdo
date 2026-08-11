@@ -34,6 +34,11 @@ export async function createBrandAction(data: BrandInput) {
         country: data.country,
         description: data.description,
         isPakistaniAssembled: data.isPakistaniAssembled,
+        parentCompany: data.parentCompany || null,
+        logoUrl: data.logoUrl || null,
+        officialWebsite: data.officialWebsite || null,
+        pakistanDistributor: data.pakistanDistributor || null,
+        isActive: data.isActive !== false,
       },
     });
 

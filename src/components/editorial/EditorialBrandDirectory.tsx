@@ -37,7 +37,7 @@ export function EditorialBrandDirectory({
               Brands &amp; Assemblers
             </h2>
             <p className="text-xs font-mono text-[#9A9994] max-w-lg">
-              Explore 36 verified manufacturers across Pakistani local assembly (CKD) and official import (CBU) channels.
+              Explore {brands.length} verified manufacturers across Pakistani local assembly (CKD) and official import (CBU) channels.
             </p>
           </div>
           <Link

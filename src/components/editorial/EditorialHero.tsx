@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Search, ArrowRight, Compass, Scale, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -29,6 +30,8 @@ export function EditorialHero({ totalVehicles, totalBrands }: EditorialHeroProps
     e.preventDefault();
     if (query.trim()) {
       router.push(`/cars?q=${encodeURIComponent(query.trim())}`);
+    } else {
+      router.push("/cars");
     }
   };
 
@@ -51,44 +54,88 @@ export function EditorialHero({ totalVehicles, totalBrands }: EditorialHeroProps
             </div>
 
             <div className="space-y-3">
-              <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-[#EDEBE6] leading-[0.98]">
-                Pakistan&rsquo;s <br />
-                <span className="text-[#9A9994] font-normal">Automotive Archive.</span>
+              <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-[#EDEBE6] leading-[1.1]">
+                <span className="font-nastaliq font-normal text-6xl sm:text-7xl lg:text-8xl inline-block leading-normal py-2">
+                  بیچ دو
+                </span>{" "}
+                <span className="text-[#C9A227] font-normal text-3xl sm:text-4xl">(BECH DO)</span> <br />
+                <span className="text-[#9A9994] font-normal text-3xl sm:text-4xl">BUY OR SELL CARS</span>
               </h1>
-              <p className="text-sm sm:text-base text-[#9A9994] max-w-xl font-mono leading-relaxed pt-2">
+              <p className="text-base sm:text-lg text-[#4EBA8E] font-semibold font-mono">
+                PAKISTAN&apos;S AUTOMOTIVE WORLD • Buy cars. Sell cars. Discover cars.
+              </p>
+              <p className="text-sm sm:text-base text-[#9A9994] max-w-xl font-mono leading-relaxed pt-1">
                 A permanent, verified record of {totalVehicles} variants across{" "}
                 {totalBrands} manufacturers. Documenting ex-factory pricing, CKD/CBU
-                assembly provenance, and 8 decades of local motoring history.
+                assembly provenance, used classifieds, and 8 decades of local motoring history.
               </p>
             </div>
 
-            {/* New Editorial Search Block */}
-            <form onSubmit={handleSearchSubmit} className="relative max-w-lg pt-4">
-              <label htmlFor="editorial-search" className="sr-only">
-                Search the archive
-              </label>
-              <div className="relative">
-                <div className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[#9A9994]">
-                  <Search className="h-5 w-5" />
-                </div>
+            {/* Precision Command Search Bar (No generic boxy containers) */}
+            <form onSubmit={handleSearchSubmit} className="relative max-w-lg">
+              <div className="relative flex items-center">
+                <Search className="absolute left-4 h-5 w-5 text-[#9A9994] pointer-events-none" />
                 <input
-                  id="editorial-search"
                   type="text"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Search brands, models, trims, or keywords..."
-                  className="w-full h-14 rounded-none border border-[#2A2C30] bg-[#141518] pl-12 pr-32 text-base text-[#EDEBE6] placeholder:text-[#616266] focus:border-[#2F6B54] focus:outline-none transition-colors shadow-sm"
+                  placeholder="Search catalog by model, chassis code, or alias (e.g. 'Grande', 'E170', 'Reborn')..."
+                  className="w-full h-14 rounded-sm border border-[#2A2C30] bg-[#141518] pl-12 pr-28 text-base text-[#EDEBE6] placeholder:text-[#616266] focus:border-[#C9A227] focus:outline-none transition-colors font-body shadow-subtle"
                 />
                 <Button
                   type="submit"
                   variant="primary"
                   size="sm"
-                  className="absolute right-2 top-1/2 -translate-y-1/2 h-10 px-5 rounded-none font-mono text-xs font-semibold tracking-wider uppercase bg-[#2F6B54] hover:bg-[#3E8A6C] text-[#EDEBE6]"
+                  className="absolute right-2 h-10 px-5 font-mono text-xs font-semibold tracking-wider uppercase bg-[#2F6B54] hover:bg-[#3E8A6C] text-[#EDEBE6]"
                 >
                   SEARCH
                 </Button>
               </div>
             </form>
+
+            {/* Primary & Secondary Actions */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-lg pt-1">
+              <Link href="/cars" className="w-full">
+                <Button
+                  type="button"
+                  variant="primary"
+                  size="md"
+                  className="w-full font-display font-bold text-sm uppercase bg-[#2F6B54] hover:bg-[#3E8A6C] text-[#EDEBE6] min-h-[44px]"
+                >
+                  <span>BUY A CAR</span>
+                </Button>
+              </Link>
+              <Link href="/sell" className="w-full">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="md"
+                  className="w-full font-display font-bold text-sm uppercase border-[#C9A227] text-[#C9A227] hover:bg-[#C9A227]/10 min-h-[44px]"
+                >
+                  <span>SELL A CAR</span>
+                </Button>
+              </Link>
+              <Link href="/cars" className="w-full">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="md"
+                  className="w-full font-display text-xs uppercase border-[#2A2C30] text-[#EDEBE6] hover:border-[#4EBA8E] min-h-[44px]"
+                >
+                  <span>BROWSE CARS</span>
+                </Button>
+              </Link>
+              <Link href="/compare" className="w-full">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="md"
+                  className="w-full font-display text-xs uppercase border-[#2A2C30] text-[#EDEBE6] hover:border-[#4EBA8E] min-h-[44px]"
+                >
+                  <span>COMPARE CARS</span>
+                </Button>
+              </Link>
+            </div>
 
             {/* Typography-led Quick Discovery Strip */}
             <div className="space-y-3 pt-2">
@@ -97,29 +144,26 @@ export function EditorialHero({ totalVehicles, totalBrands }: EditorialHeroProps
               </span>
               <div className="flex flex-wrap items-center gap-2">
                 {brands.map((b) => (
-                  <button
+                  <Link
                     key={b}
-                    type="button"
-                    onClick={() => handleQuickBrandClick(b)}
-                    className="px-3 py-1.5 rounded-sm bg-[#141518] border border-[#2A2C30] hover:border-[#C9A227] text-xs font-mono font-medium text-[#EDEBE6] transition-colors"
+                    href={`/cars?brand=${encodeURIComponent(b)}`}
+                    className="px-3 py-1.5 rounded-sm bg-[#141518] border border-[#2A2C30] hover:border-[#C9A227] text-xs font-mono font-medium text-[#EDEBE6] transition-colors inline-block"
                   >
                     {b}
-                  </button>
+                  </Link>
                 ))}
-                <button
-                  type="button"
-                  onClick={() => router.push("/cars?isLocallyAssembled=true")}
-                  className="px-3 py-1.5 rounded-sm bg-[#2F6B54]/15 border border-[#2F6B54]/40 hover:border-[#2F6B54] text-xs font-mono font-medium text-[#4EBA8E] transition-colors"
+                <Link
+                  href="/cars?isLocallyAssembled=true"
+                  className="px-3 py-1.5 rounded-sm bg-[#2F6B54]/15 border border-[#2F6B54]/40 hover:border-[#2F6B54] text-xs font-mono font-medium text-[#4EBA8E] transition-colors inline-block"
                 >
                   • LOCAL CKD
-                </button>
-                <button
-                  type="button"
-                  onClick={() => router.push("/cars?isLocallyAssembled=false")}
-                  className="px-3 py-1.5 rounded-sm bg-[#141518] border border-[#2A2C30] hover:border-[#C9A227] text-xs font-mono font-medium text-[#EDEBE6] transition-colors"
+                </Link>
+                <Link
+                  href="/cars?isLocallyAssembled=false"
+                  className="px-3 py-1.5 rounded-sm bg-[#141518] border border-[#2A2C30] hover:border-[#C9A227] text-xs font-mono font-medium text-[#EDEBE6] transition-colors inline-block"
                 >
                   • OFFICIAL CBU
-                </button>
+                </Link>
               </div>
             </div>
           </div>
@@ -191,10 +235,9 @@ export function EditorialHero({ totalVehicles, totalBrands }: EditorialHeroProps
 
             {/* Quick Action Navigation Strips below hero */}
             <div className="grid grid-cols-3 gap-2 pt-6">
-              <button
-                type="button"
-                onClick={() => router.push("/cars")}
-                className="p-3 rounded-sm border border-[#2A2C30] bg-[#141518] hover:border-[#C9A227] transition-colors text-left group"
+              <Link
+                href="/cars"
+                className="p-3 rounded-sm border border-[#2A2C30] bg-[#141518] hover:border-[#C9A227] transition-colors text-left group block"
               >
                 <Compass className="h-4 w-4 text-[#C9A227] mb-1 group-hover:scale-110 transition-transform" />
                 <span className="block font-display font-bold text-xs text-[#EDEBE6]">
@@ -203,12 +246,11 @@ export function EditorialHero({ totalVehicles, totalBrands }: EditorialHeroProps
                 <span className="block font-mono text-[10px] text-[#9A9994]">
                   160 Variants
                 </span>
-              </button>
+              </Link>
 
-              <button
-                type="button"
-                onClick={() => router.push("/compare")}
-                className="p-3 rounded-sm border border-[#2A2C30] bg-[#141518] hover:border-[#C9A227] transition-colors text-left group"
+              <Link
+                href="/compare"
+                className="p-3 rounded-sm border border-[#2A2C30] bg-[#141518] hover:border-[#C9A227] transition-colors text-left group block"
               >
                 <Scale className="h-4 w-4 text-[#2F6B54] mb-1 group-hover:scale-110 transition-transform" />
                 <span className="block font-display font-bold text-xs text-[#EDEBE6]">
@@ -217,12 +259,11 @@ export function EditorialHero({ totalVehicles, totalBrands }: EditorialHeroProps
                 <span className="block font-mono text-[10px] text-[#9A9994]">
                   Side-by-Side
                 </span>
-              </button>
+              </Link>
 
-              <button
-                type="button"
-                onClick={() => router.push("/history")}
-                className="p-3 rounded-sm border border-[#2A2C30] bg-[#141518] hover:border-[#C9A227] transition-colors text-left group"
+              <Link
+                href="/history"
+                className="p-3 rounded-sm border border-[#2A2C30] bg-[#141518] hover:border-[#C9A227] transition-colors text-left group block"
               >
                 <BookOpen className="h-4 w-4 text-[#C9A227] mb-1 group-hover:scale-110 transition-transform" />
                 <span className="block font-display font-bold text-xs text-[#EDEBE6]">
@@ -231,7 +272,7 @@ export function EditorialHero({ totalVehicles, totalBrands }: EditorialHeroProps
                 <span className="block font-mono text-[10px] text-[#9A9994]">
                   1950s–2020s
                 </span>
-              </button>
+              </Link>
             </div>
           </div>
         </div>

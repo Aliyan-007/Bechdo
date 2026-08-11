@@ -10,6 +10,9 @@ services:
     ports:
       - "3000:3000"
     environment:
-      NODE_ENV: production
-      PORT: "3000"
-      DATABASE_URL: ${DATABASE_URL}
+      - NODE_ENV=production
+      - PORT=3000
+      - DATABASE_URL=file:./dev.db
+    volumes:
+      # Persist local SQLite database across container restarts
+      - ./dev.db:/app/dev.db

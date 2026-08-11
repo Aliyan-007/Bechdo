@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { Scale, CheckCircle2, ArrowRight, SlidersHorizontal } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 
 export function CompareCta() {
   return (
@@ -45,60 +45,55 @@ export function CompareCta() {
               BENCHMARK PRESETS
             </span>
             <div className="flex flex-col gap-2">
-              <Link href="/compare?make=true" className="w-full">
-                <Button
-                  variant="primary"
-                  size="md"
-                  className="w-full justify-between font-semibold text-xs bg-[#2F6B54] hover:bg-[#3E8A6C] text-[#EDEBE6]"
-                >
-                  <span className="flex items-center gap-1.5">
-                    <Scale className="h-3.5 w-3.5" />
-                    <span>+ Make Comparison</span>
-                  </span>
-                  <ArrowRight className="h-3.5 w-3.5" />
-                </Button>
+              <Link
+                href="/compare"
+                className={buttonVariants({
+                  variant: "primary",
+                  size: "md",
+                  className: "w-full justify-between font-semibold text-xs bg-[#2F6B54] hover:bg-[#3E8A6C] text-[#EDEBE6]",
+                })}
+              >
+                <span className="flex items-center gap-1.5">
+                  <Scale className="h-3.5 w-3.5" />
+                  <span>+ Make Comparison</span>
+                </span>
+                <ArrowRight className="h-3.5 w-3.5" />
               </Link>
 
               <Link
                 href="/compare?ids=toy-corolla-e170-2014-altis-grande,hon-civic-fe-15-oriel-2022,hyu-elantra"
-                className="w-full"
+                className={buttonVariants({
+                  variant: "outline",
+                  size: "md",
+                  className: "w-full justify-between font-semibold text-xs",
+                })}
               >
-                <Button
-                  variant="outline"
-                  size="md"
-                  className="w-full justify-between font-semibold text-xs"
-                >
-                  <span>Corolla vs Civic vs Elantra</span>
-                  <ArrowRight className="h-3.5 w-3.5" />
-                </Button>
+                <span>Corolla vs Civic vs Elantra</span>
+                <ArrowRight className="h-3.5 w-3.5" />
               </Link>
 
               <Link
                 href="/compare?ids=kia-sportage,hyu-tucson,hav-h6,mg-hs"
-                className="w-full"
+                className={buttonVariants({
+                  variant: "outline",
+                  size: "md",
+                  className: "w-full justify-between text-xs",
+                })}
               >
-                <Button
-                  variant="outline"
-                  size="md"
-                  className="w-full justify-between text-xs"
-                >
-                  <span>C-Segment SUVs (4 Cars)</span>
-                  <SlidersHorizontal className="h-3.5 w-3.5" />
-                </Button>
+                <span>C-Segment SUVs (4 Cars)</span>
+                <SlidersHorizontal className="h-3.5 w-3.5" />
               </Link>
 
               <Link
                 href="/compare?ids=suz-alto,suz-swift,suz-cultus-mk2-2000"
-                className="w-full"
+                className={buttonVariants({
+                  variant: "outline",
+                  size: "md",
+                  className: "w-full justify-between text-xs",
+                })}
               >
-                <Button
-                  variant="outline"
-                  size="md"
-                  className="w-full justify-between text-xs"
-                >
-                  <span>Hatchbacks: Alto vs Swift vs Cultus</span>
-                  <SlidersHorizontal className="h-3.5 w-3.5" />
-                </Button>
+                <span>Hatchbacks: Alto vs Swift vs Cultus</span>
+                <SlidersHorizontal className="h-3.5 w-3.5" />
               </Link>
             </div>
           </div>

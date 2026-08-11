@@ -1,118 +1,120 @@
+import React, { Suspense } from "react";
 import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
-import { PriceHistoryChart } from "@/components/vehicle/PriceHistoryChart";
-import { formatPriceLakh } from "@/lib/utils";
+import { EditorialPriceHistoryView } from "@/components/history/EditorialPriceHistoryView";
 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Price History — RASTA",
+  title: "Pakistan Automotive Price History & Ex-Factory Trends | BECH DO (بیچ دو)",
   description:
-    "Dedicated price history analytics for Pakistan's verified automotive catalog. View saved ex-factory and historical price movements in one place.",
+    "Longitudinal analysis of Pakistani ex-factory sticker prices, tariff revisions, and inflation-adjusted historical benchmarks across 8 decades.",
 };
 
 export default async function PriceHistoryPage() {
-  const priceHistories = await prisma.priceHistory.findMany({
-    where: {
-      priceLakh: {
-        not: null,
-      },
-    },
-    orderBy: [{ year: "asc" }, { month: "asc" }],
-    take: 16,
-    include: {
-      variant: {
-        include: {
-          model: {
-            include: {
-              brand: true,
+  const [priceHistories, allBrands] = await Promise.all([
+    prisma.priceHistory.findMany({
+      orderBy: [
+        { year: "asc" },
+        { month: "asc" },
+      ],
+      include: {
+        variant: {
+          include: {
+            model: {
+              include: {
+                brand: true,
+              },
             },
           },
         },
       },
-    },
+    }),
+    prisma.brand.findMany({
+      orderBy: { name: "asc" },
+      select: { name: true },
+    }),
+  ]);
+
+  const points = priceHistories.map((ph) => {
+    const mm = String(ph.month || 1).padStart(2, "0");
+    return {
+      id: ph.id,
+      label: `${ph.year}-${mm}`,
+      year: ph.year,
+      month: ph.month || 1,
+      value: ph.priceLakh || 0,
+      inflationValue: ph.inflationAdjustedLakh || null,
+      note: ph.tariffNote || ph.note || null,
+      variantName: ph.variant.name,
+      modelName: ph.variant.model.name,
+      brandName: ph.variant.model.brand.name,
+    };
   });
 
-  const points = priceHistories.map((ph) => ({
-    label: `${ph.year}-${String(ph.month).padStart(2, "0")}`,
-    value: ph.priceLakh as number,
-    priceType: ph.priceType,
-    currency: ph.currency,
-    note: ph.variant
-      ? `${ph.variant.model.brand.name} ${ph.variant.model.name}`
-      : ph.note,
-  }));
+  const validPrices = points.map((p) => p.value).filter((v) => v > 0);
+  const totalRecords = points.length;
+  const earliestYear = totalRecords > 0 ? points[0].year : 1953;
+  const latestYear = totalRecords > 0 ? points[totalRecords - 1].year : 2026;
+  const lowestPriceLakh = validPrices.length > 0 ? Math.min(...validPrices) : 0;
+  const highestPriceLakh = validPrices.length > 0 ? Math.max(...validPrices) : 0;
 
-  const firstPoint = points[0];
-  const latestPoint = points[points.length - 1];
-  const rateChange = firstPoint && latestPoint
-    ? (((latestPoint.value - firstPoint.value) / firstPoint.value) * 100).toFixed(1)
-    : null;
+  const currentPoints = points.filter((p) => p.year >= 2024);
+  const historicalPoints = points.filter((p) => p.year < 2015);
+
+  const avgCurrentPriceLakh =
+    currentPoints.length > 0
+      ? Math.round(
+          (currentPoints.reduce((sum, p) => sum + p.value, 0) /
+            currentPoints.length) *
+            10
+        ) / 10
+      : 65;
+
+  const avgHistoricalPriceLakh =
+    historicalPoints.length > 0
+      ? Math.round(
+          (historicalPoints.reduce((sum, p) => sum + p.value, 0) /
+            historicalPoints.length) *
+            10
+        ) / 10
+      : 15;
+
+  const percentageChange =
+    avgHistoricalPriceLakh > 0
+      ? Math.round(
+          ((avgCurrentPriceLakh - avgHistoricalPriceLakh) /
+            avgHistoricalPriceLakh) *
+            100
+        )
+      : 330;
+
+  const metrics = {
+    totalRecords,
+    earliestYear,
+    latestYear,
+    lowestPriceLakh,
+    highestPriceLakh,
+    avgCurrentPriceLakh,
+    avgHistoricalPriceLakh,
+    percentageChange,
+  };
+
+  const brandNames = allBrands.map((b) => b.name);
 
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 sm:py-12 bg-[#0E0F11] text-[#EDEBE6] min-h-screen">
-      <div className="space-y-6">
-        <div className="rounded-sm border border-[#2A2C30] bg-[#17181B] p-6">
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-            <div className="space-y-2 max-w-3xl">
-              <p className="text-xs font-mono uppercase tracking-[0.3em] text-[#616266]">
-                Price History Analytics
-              </p>
-              <h1 className="font-display text-3xl sm:text-4xl font-bold text-[#EDEBE6]">
-                Dedicated Market Price History
-              </h1>
-              <p className="text-sm font-mono leading-relaxed text-[#9A9994]">
-                Explore saved ex-factory and historical sticker prices from the RASTA catalog. This new page surfaces verified price movement data across the local market.
-              </p>
-            </div>
-            {rateChange !== null && (
-              <div className="rounded-sm border border-[#2A2C30] bg-[#141518] px-4 py-3 text-sm font-semibold text-[#EDEBE6]">
-                {points.length} recorded points · Change: {rateChange}% since first entry
-              </div>
-            )}
-          </div>
+    <Suspense
+      fallback={
+        <div className="mx-auto max-w-7xl px-4 py-16 text-center text-[#9A9994] font-mono">
+          Loading BECH DO Price History Archive...
         </div>
-
-        <div className="rounded-sm border border-[#2A2C30] bg-[#17181B] p-6">
-          <PriceHistoryChart points={points} />
-        </div>
-
-        <div className="rounded-sm border border-[#2A2C30] bg-[#17181B] p-6 space-y-4">
-          <h2 className="font-display text-2xl font-bold text-[#EDEBE6]">
-            Sample Price History Entries
-          </h2>
-          <div className="overflow-x-auto">
-            <table className="min-w-full text-left text-sm font-mono">
-              <thead>
-                <tr className="border-b border-[#2A2C30] text-[#9A9994] uppercase text-xs">
-                  <th className="py-3 px-4">Period</th>
-                  <th className="py-3 px-4">Price</th>
-                  <th className="py-3 px-4">Variant</th>
-                  <th className="py-3 px-4">Type</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-[#2A2C30]">
-                {priceHistories.map((ph) => (
-                  <tr key={ph.id} className="hover:bg-[#141518]">
-                    <td className="py-3 px-4 text-[#EDEBE6]">
-                      {ph.year}-{String(ph.month).padStart(2, "0")}
-                    </td>
-                    <td className="py-3 px-4 text-[#C9A227] font-semibold">
-                      {ph.priceLakh ? formatPriceLakh(ph.priceLakh) : "N/A"}
-                    </td>
-                    <td className="py-3 px-4 text-[#9A9994]">
-                      {ph.variant?.model.brand.name} {ph.variant?.model.name}
-                    </td>
-                    <td className="py-3 px-4 text-[#4EBA8E] uppercase">
-                      {ph.priceType}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
+      }
+    >
+      <EditorialPriceHistoryView
+        points={points}
+        allBrands={brandNames}
+        metrics={metrics}
+      />
+    </Suspense>
   );
 }

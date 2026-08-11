@@ -10,7 +10,7 @@ import {
   CarouselPrevious,
   CarouselNext,
 } from "@/components/ui/carousel";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { EditorialVehicleCard, type EditorialVehicleCardProps } from "@/components/editorial/EditorialVehicleCard";
 
 interface EditorialFeaturedProps {
@@ -103,10 +103,15 @@ export function EditorialFeatured({ vehicles }: EditorialFeaturedProps) {
             </div>
 
             <div className="pt-2">
-              <Link href={hrefLead}>
-                <Button variant="primary" size="md" className="font-semibold text-xs tracking-wider uppercase">
-                  VIEW VEHICLE →
-                </Button>
+              <Link
+                href={hrefLead}
+                className={buttonVariants({
+                  variant: "primary",
+                  size: "md",
+                  className: "font-semibold text-xs tracking-wider uppercase inline-flex",
+                })}
+              >
+                VIEW VEHICLE →
               </Link>
             </div>
           </div>

@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
 }
 
 model Brand {
@@ -15,25 +15,37 @@ model Brand {
   country              String
   description          String
   isPakistaniAssembled Boolean  @default(true)
+  parentCompany        String?
+  logoUrl              String?
+  officialWebsite      String?
+  pakistanDistributor  String?
+  isActive             Boolean  @default(true)
   models               Model[]
 
   @@index([isPakistaniAssembled])
+  @@index([isActive])
 }
 
 model Model {
-  id              String       @id @default(cuid())
-  brandId         String
-  name            String
-  slug            String       @unique
-  bodyType        String
-  popularityScore Int          @default(80)
-  isHistorical    Boolean      @default(false)
-  brand           Brand        @relation(fields: [brandId], references: [id], onDelete: Cascade)
-  generations     Generation[]
-  variants        Variant[]
+  id                  String       @id @default(cuid())
+  brandId             String
+  name                String
+  slug                String       @unique
+  bodyType            String
+  popularityScore     Int          @default(80)
+  isHistorical        Boolean      @default(false)
+  aliases             String?
+  category            String?
+  firstProductionYear Int?
+  lastProductionYear  Int?
+  status              String?      @default("CURRENT")
+  brand               Brand        @relation(fields: [brandId], references: [id], onDelete: Cascade)
+  generations         Generation[]
+  variants            Variant[]
 
   @@index([brandId])
   @@index([bodyType])
+  @@index([status])
 }
 
 model Generation {
@@ -44,6 +56,9 @@ model Generation {
   startYear  Int
   endYear    Int?
   isCurrent  Boolean    @default(true)
+  platform   String?
+  bodyStyles String?
+  imageUrl   String?
   model      Model      @relation(fields: [modelId], references: [id], onDelete: Cascade)
   facelifts  Facelift[]
   variants   Variant[]
@@ -57,6 +72,8 @@ model Facelift {
   name         String
   year         Int
   description  String?
+  changes      String?
+  imageUrl     String?
   generation   Generation @relation(fields: [generationId], references: [id], onDelete: Cascade)
   variants     Variant[]
 
@@ -86,6 +103,8 @@ model Variant {
   bootSpaceL         Int?
   groundClearanceMm  Int?
   airbags            Int                    @default(2)
+  drivetrain         String                 @default("FWD")
+  trimLevel          String?
   colors             String
   isFeatured         Boolean                @default(false)
   isPopular          Boolean                @default(false)
@@ -120,6 +139,10 @@ model Variant {
   correctionReports  CorrectionReport[]
   aliases            VariantAlias[]
   evidences          VehicleEvidence[]
+  usedListings       UsedListing[]
+  priceAlerts        PriceAlert[]
+  reviews            Review[]
+  inspectionReports  InspectionReport[]
 
   @@index([modelId])
   @@index([bodyType])
@@ -168,6 +191,10 @@ model Specification {
   wheelbaseMm       Int     @default(2700)
   seatingCapacity   Int
   airbagsCount      Int
+  batteryCapacityKwh Float?
+  electricRangeKm    Int?
+  chargingTimeHours  Float?
+  hybridSystemType   String?
   variant           Variant @relation(fields: [variantId], references: [id], onDelete: Cascade)
 }
 
@@ -193,6 +220,8 @@ model Image {
   copyrightNotice String?  // e.g. "© 2026 Indus Motor Company / Press Kit"
   license         String?  // e.g. "Manufacturer Media Kit", "Public Domain Archive"
   isVerified      Boolean  @default(true)
+  colorName       String?
+  colorHex        String?
   variant         Variant  @relation(fields: [variantId], references: [id], onDelete: Cascade)
 
   @@index([variantId, category])
@@ -200,6 +229,7 @@ model Image {
   @@index([sourceType])
   @@index([imageMatchLevel])
   @@index([verificationStatus])
+  @@index([colorName])
 }
 
 model PriceHistory {
@@ -212,9 +242,11 @@ model PriceHistory {
   currency           String  @default("PKR")
   source             String?
   sourceUrl          String?
-  verificationStatus String  @default("VERIFIED") // "VERIFIED", "PARTIALLY_VERIFIED", "ESTIMATED", "UNVERIFIED"
-  note               String?
-  variant            Variant @relation(fields: [variantId], references: [id], onDelete: Cascade)
+  verificationStatus  String  @default("VERIFIED") // "VERIFIED", "PARTIALLY_VERIFIED", "ESTIMATED", "UNVERIFIED"
+  note                String?
+  inflationAdjustedLakh Float?
+  tariffNote          String?
+  variant             Variant @relation(fields: [variantId], references: [id], onDelete: Cascade)
 
   @@index([variantId, year])
   @@index([priceType])
@@ -237,6 +269,8 @@ model Feature {
   name            String           @unique
   category        String
   vehicleFeatures VehicleFeature[]
+
+  @@index([category])
 }
 
 model VehicleFeature {
@@ -244,11 +278,13 @@ model VehicleFeature {
   variantId  String
   featureId  String
   isStandard Boolean @default(true)
+  status     String  @default("STANDARD") // "STANDARD", "OPTIONAL", "NOT_AVAILABLE", "UNKNOWN"
   variant    Variant @relation(fields: [variantId], references: [id], onDelete: Cascade)
   feature    Feature @relation(fields: [featureId], references: [id], onDelete: Cascade)
 
   @@index([variantId])
   @@index([featureId])
+  @@index([status])
 }
 
 model Favorite {
@@ -263,16 +299,20 @@ model Favorite {
 }
 
 model HistoricalEvent {
-  id          String  @id @default(cuid())
-  year        Int
-  decade      String
-  title       String
-  description String
-  brandName   String?
-  imageUrl    String?
+  id            String  @id @default(cuid())
+  year          Int
+  decade        String
+  title         String
+  description   String
+  brandName     String?
+  imageUrl      String?
+  eventCategory String? @default("LAUNCH_MILESTONE") // "TARIFF_POLICY", "NEW_ASSEMBLER", "LAUNCH_MILESTONE", "DEVALUATION_CRISIS", "REGULATORY"
+  relatedSlug   String?
 
   @@index([year])
   @@index([decade])
+  @@index([eventCategory])
+  @@index([brandName])
 }
 
 model AuditLog {
@@ -345,4 +385,162 @@ model VehicleEvidence {
   @@index([sourceId])
   @@index([fieldName])
   @@index([verificationStatus])
+}
+
+model UsedListing {
+  id               String   @id @default(cuid())
+  variantId        String
+  title            String
+  askingPriceLakh  Float
+  mileageKm        Int
+  registrationYear Int
+  registrationCity String   // e.g. "Karachi", "Lahore", "Islamabad", "Faisalabad"
+  assemblyStatus   String   @default("Local CKD") // "Local CKD", "CBU Import"
+  inspectionGrade  String   @default("A+") // "A+", "A", "B", "Uninspected"
+  sellerName       String
+  sellerType       String   @default("INDIVIDUAL") // "INDIVIDUAL", "AUTHORIZED_DEALER", "CERTIFIED_PARTNER"
+  sellerPhone      String
+  location         String   // e.g. "Clifton, Karachi", "DHA Phase 5, Lahore", "F-10, Islamabad"
+  status           String   @default("ACTIVE") // "ACTIVE", "SOLD", "RESERVED"
+  notes            String?
+  createdAt        DateTime @default(now())
+  variant          Variant  @relation(fields: [variantId], references: [id], onDelete: Cascade)
+  inspectionReport InspectionReport?
+
+  @@index([variantId])
+  @@index([status])
+  @@index([registrationCity])
+  @@index([askingPriceLakh])
+}
+
+model Dealership {
+  id         String   @id @default(cuid())
+  name       String
+  slug       String   @unique
+  sellerType String   @default("OEM_3S_DEALERSHIP") // "OEM_3S_DEALERSHIP", "CERTIFIED_PARTNER", "INDEPENDENT_DEALER"
+  brandName  String?
+  city       String
+  address    String
+  phone      String
+  email      String?
+  rating     Float    @default(4.8)
+  isVerified Boolean  @default(true)
+  createdAt  DateTime @default(now())
+
+  @@index([city])
+  @@index([brandName])
+  @@index([sellerType])
+  @@index([isVerified])
+}
+
+model SavedSearch {
+  id             String   @id @default(cuid())
+  userId         String
+  name           String
+  query          String?
+  bodyType       String?
+  fuelType       String?
+  priceMinLakh   Float?
+  priceMaxLakh   Float?
+  brandName      String?
+  notifyOnChange Boolean  @default(true)
+  createdAt      DateTime @default(now())
+
+  @@index([userId])
+  @@index([brandName])
+  @@index([bodyType])
+}
+
+model PriceAlert {
+  id               String   @id @default(cuid())
+  variantId        String
+  userId           String
+  userEmail        String?
+  targetPriceLakh  Float
+  currentPriceLakh Float
+  status           String   @default("ACTIVE") // "ACTIVE", "TRIGGERED", "CANCELLED"
+  notes            String?
+  createdAt        DateTime @default(now())
+  variant          Variant  @relation(fields: [variantId], references: [id], onDelete: Cascade)
+
+  @@index([variantId])
+  @@index([userId])
+  @@index([status])
+}
+
+model Review {
+  id               String   @id @default(cuid())
+  variantId        String
+  userName         String
+  userCity         String
+  ratingOverall    Float    @default(4.5)
+  ratingFuel       Float    @default(4.5)
+  ratingAC         Float    @default(4.5)
+  ratingSuspension Float    @default(4.5)
+  ratingResale     Float    @default(4.5)
+  title            String
+  comment          String
+  ownershipYears   Int      @default(2)
+  isVerifiedOwner  Boolean  @default(true)
+  createdAt        DateTime @default(now())
+  variant          Variant  @relation(fields: [variantId], references: [id], onDelete: Cascade)
+
+  @@index([variantId])
+  @@index([userCity])
+  @@index([ratingOverall])
+  @@index([isVerifiedOwner])
+}
+
+model InspectionReport {
+  id                String      @id @default(cuid())
+  listingId         String      @unique
+  variantId         String
+  overallGrade      String      // e.g. "A+", "A", "B", "4.5 B/B", "S Grade"
+  exteriorGrade     String      @default("A")
+  interiorGrade     String      @default("A")
+  engineGrade       String      @default("A+")
+  suspensionGrade   String      @default("A")
+  frameCondition    String      @default("ORIGINAL") // "ORIGINAL", "REPAIRED", "DAMAGED"
+  auctionSheetGrade String?
+  inspectionDate    String      @default("2026-08-01")
+  inspectorName     String      @default("RASTA Certified Inspection Center")
+  reportUrl         String?
+  notes             String?
+  createdAt         DateTime    @default(now())
+  listing           UsedListing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  variant           Variant     @relation(fields: [variantId], references: [id], onDelete: Cascade)
+
+  @@index([variantId])
+  @@index([overallGrade])
+  @@index([frameCondition])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  title     String
+  message   String
+  type      String   @default("SYSTEM") // "PRICE_ALERT", "NEW_MODEL", "CORRECTION_RESOLVED", "SYSTEM"
+  linkUrl   String?
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([isRead])
+  @@index([type])
+}
+
+model AnalyticsEvent {
+  id         String   @id @default(cuid())
+  eventType  String   // "VIEW_VARIANT", "COMPARE_PAIR", "SEARCH_QUERY", "FAVORITE_ADD", "PRICE_ALERT_SET"
+  entityId   String
+  entityName String
+  brandName  String?
+  city       String?  // e.g. "Karachi", "Lahore", "Islamabad"
+  createdAt  DateTime @default(now())
+
+  @@index([eventType])
+  @@index([entityId])
+  @@index([brandName])
+  @@index([createdAt])
 }

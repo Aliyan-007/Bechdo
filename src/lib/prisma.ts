@@ -1,30 +1,20 @@
 import { PrismaClient } from "@prisma/client";
-import { PrismaPg } from "@prisma/adapter-pg";
-import pg from "pg";
-import dotenv from "dotenv";
+import { PrismaLibSql } from "@prisma/adapter-libsql";
 
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
 };
 
 function createPrismaClient() {
-  // If the env var wasn't set in the shell, load .env.local for local development
-  if (!process.env.DATABASE_URL) {
-    dotenv.config({ path: ".env.local" });
+  const url = process.env.DATABASE_URL || "file:./dev.db";
+
+  // If connected to Supabase or managed PostgreSQL
+  if (url.startsWith("postgresql://") || url.startsWith("postgres://")) {
+    return new PrismaClient();
   }
 
-  // Debug: show whether DATABASE_URL is present and its type
-  try {
-    // avoid printing the full URL (contains password)
-    // show only whether it starts with the expected prefix
-    // eslint-disable-next-line no-console
-    console.log("DATABASE_URL present:", typeof process.env.DATABASE_URL, process.env.DATABASE_URL ? process.env.DATABASE_URL.startsWith("postgresql://") : false);
-  } catch (e) {
-    /* ignore */
-  }
-
-  const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL, max: 5 });
-  const adapter = new PrismaPg(pool);
+  // Default to local SQLite via LibSQL adapter
+  const adapter = new PrismaLibSql({ url });
   return new PrismaClient({ adapter });
 }
 

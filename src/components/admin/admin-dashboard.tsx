@@ -412,7 +412,7 @@ export function AdminDashboard({
         <div className="flex items-center gap-2">
           <Badge variant="outline" className="font-mono text-xs px-3 py-1.5">
             <Database className="h-3.5 w-3.5 text-[#2F6B54] mr-1.5" />
-            <span>Prisma 7 / Supabase Postgres</span>
+            <span>Prisma 7 / SQLite (file:./dev.db)</span>
           </Badge>
         </div>
       </div>

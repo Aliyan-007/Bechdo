@@ -92,11 +92,20 @@ export default async function BrandDetailPage({ params }: Props) {
     take: 3,
   });
 
+  const dealerships = await prisma.dealership.findMany({
+    where: {
+      brandName: brand.name,
+    },
+    orderBy: [{ city: "asc" }, { rating: "desc" }],
+    take: 12,
+  });
+
   return (
     <EditorialBrandDetail
       brand={brand}
       vehicles={vehicles}
       events={events}
+      dealerships={dealerships}
     />
   );
 }

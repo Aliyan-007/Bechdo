@@ -14,6 +14,8 @@ import {
   History,
   Car,
   Laptop,
+  Bookmark,
+  TrendingUp,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTheme, type Theme } from "@/components/theme-provider";
@@ -57,10 +59,12 @@ export function EditorialNavbar({ allVehicles }: EditorialNavbarProps) {
   // Public product navigation ONLY (Admin & Favorites removed per Phase 10.1)
   const navLinks = [
     { href: "/cars", label: "CARS", icon: Car },
+    { href: "/sell", label: "SELL CAR", icon: Car },
     { href: "/brands", label: "BRANDS", icon: Compass },
+    { href: "/price-history", label: "PRICE HISTORY", icon: TrendingUp },
     { href: "/compare", label: "COMPARE", icon: Scale, badge: compared.length },
+    { href: "/garage", label: "GARAGE", icon: Bookmark },
     { href: "/history", label: "HISTORY", icon: History },
-    { href: "/price-history", label: "PRICE HISTORY", icon: History },
   ];
 
   return (
@@ -71,14 +75,17 @@ export function EditorialNavbar({ allVehicles }: EditorialNavbarProps) {
           <div className="flex items-center gap-10">
             <Link href="/" className="flex items-center gap-3 group">
               <div className="flex h-9 w-9 items-center justify-center rounded-sm bg-[#2F6B54] text-[#EDEBE6] font-display font-bold text-xl group-hover:bg-[#3E8A6C] transition-colors">
-                R
+                B
               </div>
               <div className="flex flex-col">
-                <span className="font-display font-bold text-lg tracking-wider text-[#EDEBE6] group-hover:text-[#E6C86E] transition-colors leading-none">
-                  RASTA
+                <span className="font-display font-bold text-lg tracking-wider text-[#EDEBE6] group-hover:text-[#E6C86E] transition-colors leading-none flex items-center">
+                  BECH DO
+                  <span className="font-nastaliq text-base text-[#C9A227] ml-2 font-normal">
+                    بیچ دو
+                  </span>
                 </span>
                 <span className="font-mono text-[9px] text-[#9A9994] uppercase tracking-widest leading-none mt-1">
-                  Pakistan Archive
+                  Pakistan Marketplace
                 </span>
               </div>
             </Link>

@@ -6,6 +6,7 @@ import { EditorialBrandDirectory } from "@/components/editorial/EditorialBrandDi
 import { EditorialGarage } from "@/components/editorial/EditorialGarage";
 import { CompareCta } from "@/components/home/compare-cta";
 import { EditorialArchiveTimeline } from "@/components/editorial/EditorialArchiveTimeline";
+import { EditorialShowcaseFeed } from "@/components/home/EditorialShowcaseFeed";
 
 export const dynamic = "force-dynamic";
 
@@ -117,10 +118,10 @@ export default async function HomePage() {
   const homeJsonLd = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "RASTA — Pakistan Automotive Intelligence",
+    name: "BECH DO (بیچ دو) — Pakistan Automotive Marketplace & Intelligence",
     url: "https://rasta-auto.pk",
     description:
-      "Pakistan's definitive automotive intelligence and discovery platform. Track ex-factory prices, specifications, compare cars, and explore historical automotive data across 36 brands.",
+      "Pakistan's definitive automotive marketplace and intelligence platform. Track ex-factory prices, specifications, compare cars, and explore historical automotive data across 40 brands.",
     potentialAction: {
       "@type": "SearchAction",
       target: "https://rasta-auto.pk/cars?q={search_term_string}",
@@ -143,6 +144,13 @@ export default async function HomePage() {
 
       {/* 2. THE SPOTLIGHT (Asymmetrical magazine lead story + Carousel) */}
       {featured.length > 0 && <EditorialFeatured vehicles={featured} />}
+
+      {/* 2.5 EDITORIAL SHOWCASE & SPOTLIGHT FEED (Interactive Feature 13 / Phase 10) */}
+      <EditorialShowcaseFeed
+        featuredVehicles={featured}
+        popularVehicles={popular}
+        recentlyAddedVehicles={recentlyAdded}
+      />
 
       {/* 3. MANUFACTURER DIRECTORY (Typographic Index) */}
       <EditorialBrandDirectory brands={brandItems} />

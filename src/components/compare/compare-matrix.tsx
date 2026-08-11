@@ -786,16 +786,18 @@ export function CompareMatrix({
                     key={slotIndex}
                     className={`p-4 rounded-sm border transition-colors ${
                       selectedVehicle
-                        ? "border-[#3E8A6C] bg-[#17181B]"
-                        : "border-[#2A2C30] bg-[#17181B]/60"
-                    } relative flex flex-col justify-between min-h-[140px]`}
+                        ? "border-[#1F4D3D] dark:border-[#3E8A6C] bg-[#FFFFFF] dark:bg-[#17181B]"
+                        : "border-[#D8D4CB] dark:border-[#2A2C30] bg-[#FFFFFF] dark:bg-[#17181B]/60"
+                    } relative flex flex-col justify-between min-h-[150px] shadow-subtle`}
                   >
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-xs font-mono uppercase tracking-wider text-[#9A9994]">
+                      <span className="text-xs font-mono uppercase tracking-wider text-[#17181B] dark:text-[#9A9994] font-bold">
                         VEHICLE {slotIndex + 1}{" "}
                         <span
                           className={
-                            isRequired ? "text-[#C9A227]" : "text-[#616266]"
+                            isRequired
+                              ? "text-[#97721A] dark:text-[#C9A227]"
+                              : "text-[#5F5C56] dark:text-[#616266]"
                           }
                         >
                           {isRequired ? "(REQUIRED)" : "(OPTIONAL)"}
@@ -804,7 +806,7 @@ export function CompareMatrix({
                       {selectedVehicle && (
                         <button
                           onClick={() => handleSlotRemove(slotIndex)}
-                          className="text-[#9A9994] hover:text-[#B24A3C] transition-colors p-1"
+                          className="text-[#5F5C56] dark:text-[#9A9994] hover:text-[#9A3B2E] dark:hover:text-[#B24A3C] transition-colors p-1"
                           title="Clear slot"
                         >
                           <X className="h-4 w-4" />
@@ -815,19 +817,19 @@ export function CompareMatrix({
                     {selectedVehicle ? (
                       <div className="space-y-2 py-2">
                         <div>
-                          <span className="text-xs font-mono uppercase text-[#C9A227] block">
+                          <span className="text-xs font-mono uppercase text-[#97721A] dark:text-[#C9A227] block font-semibold">
                             {selectedVehicle.brand}
                           </span>
-                          <span className="font-display font-bold text-lg text-[#EDEBE6] block leading-tight">
+                          <span className="font-display font-bold text-lg text-[#17181B] dark:text-[#EDEBE6] block leading-tight">
                             {selectedVehicle.model}
                           </span>
-                          <span className="text-xs font-mono text-[#9A9994] block truncate">
+                          <span className="text-xs font-mono text-[#5F5C56] dark:text-[#9A9994] block truncate">
                             {selectedVehicle.variantName}
                           </span>
                         </div>
                         {selectedVehicle.priceMinLakh !== undefined &&
                           selectedVehicle.priceMinLakh > 0 && (
-                            <div className="text-xs font-mono-num font-semibold text-[#4EBA8E]">
+                            <div className="text-xs font-mono-num font-semibold text-[#1F4D3D] dark:text-[#4EBA8E]">
                               {formatPriceRange(
                                 selectedVehicle.priceMinLakh,
                                 selectedVehicle.priceMaxLakh ||
@@ -837,24 +839,41 @@ export function CompareMatrix({
                           )}
                       </div>
                     ) : (
-                      <div className="relative my-auto">
-                        <input
-                          type="text"
-                          value={searchQuery}
-                          onFocus={() => setActiveSlotDropdown(slotIndex)}
-                          onChange={(e) => {
-                            setSlotSearch({
-                              ...slotSearch,
-                              [slotIndex]: e.target.value,
-                            });
-                            setActiveSlotDropdown(slotIndex);
-                          }}
-                          placeholder={`Search brand or model (e.g. Corolla)...`}
-                          className="w-full h-10 rounded-sm border border-[#2A2C30] bg-[#0E0F11] px-3 text-xs font-mono text-[#EDEBE6] placeholder:text-[#616266] focus:border-[#2F6B54] focus:outline-none"
-                        />
+                      <div className="flex flex-col justify-center gap-2.5 my-auto py-2">
+                        <button
+                          type="button"
+                          onClick={() => setActiveSlotDropdown(slotIndex)}
+                          className="w-full py-2.5 px-3 rounded-sm border border-[#D8D4CB] dark:border-[#2A2C30] bg-[#EFEDE8] dark:bg-[#141518] hover:bg-[#E4E1DA] dark:hover:bg-[#1F2023] text-left transition-all flex items-center justify-between group shadow-subtle"
+                        >
+                          <span className="flex items-center gap-2 font-display font-bold text-xs text-[#17181B] dark:text-[#EDEBE6]">
+                            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#1F4D3D] dark:bg-[#2F6B54] text-[#FFFFFF] font-mono text-xs font-bold group-hover:scale-110 transition-transform">
+                              +
+                            </span>
+                            <span>ADD CAR TO COMPARE</span>
+                          </span>
+                          <span className="text-[10px] font-mono uppercase text-[#5F5C56] dark:text-[#9A9994] font-semibold">
+                            TAP TO SELECT
+                          </span>
+                        </button>
+
+                        <div className="relative">
+                          <input
+                            type="text"
+                            value={searchQuery}
+                            onFocus={() => setActiveSlotDropdown(slotIndex)}
+                            onChange={(e) => {
+                              setSlotSearch({
+                                ...slotSearch,
+                                [slotIndex]: e.target.value,
+                              });
+                              setActiveSlotDropdown(slotIndex);
+                            }}
+                            placeholder={`Search brand or model (e.g. Corolla)...`}
+                            className="w-full h-10 rounded-sm border border-[#D8D4CB] dark:border-[#2A2C30] bg-[#FFFFFF] dark:bg-[#0E0F11] px-3 text-xs font-mono text-[#17181B] dark:text-[#EDEBE6] placeholder:text-[#5F5C56] dark:placeholder:text-[#616266] focus:border-[#1F4D3D] dark:focus:border-[#2F6B54] focus:outline-none"
+                          />
 
                         {isDropdownOpen && (
-                          <div className="absolute top-11 left-0 right-0 z-50 max-h-56 overflow-y-auto rounded-sm border border-[#2A2C30] bg-[#141518] shadow-elevated divide-y divide-[#2A2C30]">
+                          <div className="absolute top-11 left-0 right-0 z-50 max-h-56 overflow-y-auto rounded-sm border border-[#D8D4CB] dark:border-[#2A2C30] bg-[#FFFFFF] dark:bg-[#141518] shadow-elevated divide-y divide-[#D8D4CB] dark:divide-[#2A2C30]">
                             {filteredCatalog.length > 0 ? (
                               filteredCatalog.slice(0, 15).map((cv) => (
                                 <div
@@ -862,13 +881,13 @@ export function CompareMatrix({
                                   onClick={() =>
                                     handleSlotSelect(slotIndex, cv.id)
                                   }
-                                  className="flex items-center justify-between p-2.5 hover:bg-[#1F2023] cursor-pointer transition-colors"
+                                  className="flex items-center justify-between p-2.5 hover:bg-[#EFEDE8] dark:hover:bg-[#1F2023] cursor-pointer transition-colors"
                                 >
                                   <div className="truncate pr-2">
-                                    <span className="font-display font-semibold text-xs text-[#EDEBE6] block truncate">
+                                    <span className="font-display font-semibold text-xs text-[#17181B] dark:text-[#EDEBE6] block truncate">
                                       {cv.brand} {cv.model}
                                     </span>
-                                    <span className="text-[11px] font-mono text-[#9A9994] block truncate">
+                                    <span className="text-[11px] font-mono text-[#5F5C56] dark:text-[#9A9994] block truncate">
                                       {cv.variantName}
                                     </span>
                                   </div>
@@ -884,6 +903,7 @@ export function CompareMatrix({
                             )}
                           </div>
                         )}
+                        </div>
                       </div>
                     )}
                   </div>
@@ -918,7 +938,7 @@ export function CompareMatrix({
                         onClick={() => handleQuickAdd(cv.id)}
                         className={`px-2.5 py-1 rounded-sm border text-xs font-mono transition-colors ${
                           isAlreadySelected
-                            ? "bg-[#1F2023]/40 border-[#2A2C30] text-[#616266] cursor-not-allowed"
+                            ? "bg-[#1F2023]/40 border-[#2A2C30] text-[#73746C] dark:text-[#616266] cursor-not-allowed"
                             : "bg-[#1F2023] border-[#2A2C30] hover:border-[#3E8A6C] text-[#EDEBE6]"
                         }`}
                       >

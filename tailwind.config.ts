@@ -21,9 +21,16 @@ const config: Config = {
         "on-accent": "var(--on-accent)",
       },
       fontFamily: {
-        display: ["var(--font-display)", "serif"],
+        display: ["var(--font-display)", "sans-serif"],
         body: ["var(--font-body)", "sans-serif"],
         mono: ["var(--font-mono)", "monospace"],
+        nastaliq: [
+          "var(--font-nastaliq)",
+          "'Jameel Noori Nastaleeq'",
+          "'Noto Nastaliq Urdu'",
+          "'Nafees Nastaleeq'",
+          "serif",
+        ],
       },
     },
   },

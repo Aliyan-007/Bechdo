@@ -1,0 +1,1 @@
+﻿import "dotenv/config"; import { PrismaClient } from "@prisma/client"; import { PrismaLibSql } from "@prisma/adapter-libsql"; const url = process.env.DATABASE_URL || "file:./dev.db"; const adapter = new PrismaLibSql({ url }); const prisma = new PrismaClient({ adapter }); console.log("created", prisma.constructor.name); await prisma.$disconnect();

@@ -73,7 +73,6 @@ CREATE TABLE "Variant" (
     "isPopular" BOOLEAN NOT NULL DEFAULT false,
     "isRecentlyAdded" BOOLEAN NOT NULL DEFAULT false,
     "releaseYear" INTEGER NOT NULL DEFAULT 2024,
-    "modelYear" INTEGER,
     CONSTRAINT "Variant_modelId_fkey" FOREIGN KEY ("modelId") REFERENCES "Model" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT "Variant_generationId_fkey" FOREIGN KEY ("generationId") REFERENCES "Generation" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
     CONSTRAINT "Variant_faceliftId_fkey" FOREIGN KEY ("faceliftId") REFERENCES "Facelift" ("id") ON DELETE SET NULL ON UPDATE CASCADE
@@ -163,7 +162,7 @@ CREATE TABLE "Favorite" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "variantId" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
-    "createdAt" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT "Favorite_variantId_fkey" FOREIGN KEY ("variantId") REFERENCES "Variant" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 
@@ -189,9 +188,6 @@ CREATE UNIQUE INDEX "Model_slug_key" ON "Model"("slug");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Variant_slug_key" ON "Variant"("slug");
-
--- CreateIndex
-CREATE INDEX "Variant_modelYear_idx" ON "Variant"("modelYear");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Specification_variantId_key" ON "Specification"("variantId");
