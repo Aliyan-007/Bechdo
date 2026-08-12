@@ -7,6 +7,7 @@
   },
   "scripts": {
     "postinstall": "npx prisma generate",
+    "vercel-build": "npx prisma generate && next build",
     "dev": "next dev -H 0.0.0.0 -p 3000",
     "build": "npx prisma generate && next build",
     "start": "next start -H 0.0.0.0 -p 3000",
