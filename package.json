@@ -6,9 +6,9 @@
     "seed": "tsx prisma/seed.ts"
   },
   "scripts": {
-    "postinstall": "prisma generate",
+    "postinstall": "npx prisma generate",
     "dev": "next dev -H 0.0.0.0 -p 3000",
-    "build": "next build",
+    "build": "npx prisma generate && next build",
     "start": "next start -H 0.0.0.0 -p 3000",
     "lint": "eslint",
     "db:seed": "tsx prisma/seed.ts",
