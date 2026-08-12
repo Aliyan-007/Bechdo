@@ -21,6 +21,9 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
+  outputFileTracingIncludes: {
+    "/*": ["./dev.db", "./dev.db*"],
+  },
 };
 
 export default nextConfig;
