@@ -8,23 +8,48 @@ const globalForPrisma = globalThis as unknown as {
 };
 
 function getDatabaseUrl(): string {
-  if (process.env.DATABASE_URL) return process.env.DATABASE_URL;
+  const url = process.env.DATABASE_URL || "";
 
-  // On Vercel Serverless (or read-only production environments), copy dev.db to /tmp for read-write access
-  if (process.env.VERCEL || process.env.NODE_ENV === "production") {
-    const sourceDb = path.join(process.cwd(), "dev.db");
-    const targetDb = path.join("/tmp", "dev.db");
+  // If connected to Supabase or managed PostgreSQL, use it immediately
+  if (url.startsWith("postgresql://") || url.startsWith("postgres://")) {
+    return url;
+  }
+
+  // For any SQLite database on Vercel Serverless / production
+  const targetDb = path.join("/tmp", "dev.db");
+
+  // If already copied to /tmp in this serverless instance, reuse it instantly
+  if (fs.existsSync(targetDb)) {
+    return "file:/tmp/dev.db";
+  }
+
+  // Locate dev.db in possible Vercel Serverless directories
+  const candidates = [
+    path.join(process.cwd(), "dev.db"),
+    path.join(process.cwd(), "..", "dev.db"),
+    path.join(process.cwd(), "..", "..", "dev.db"),
+    path.join(__dirname, "dev.db"),
+    path.join(__dirname, "..", "dev.db"),
+    path.join(__dirname, "..", "..", "dev.db"),
+    path.join(__dirname, "..", "..", "..", "dev.db"),
+    path.resolve("./dev.db"),
+  ];
+
+  for (const candidate of candidates) {
     try {
-      if (fs.existsSync(sourceDb)) {
-        if (!fs.existsSync(targetDb)) {
-          fs.copyFileSync(sourceDb, targetDb);
-          console.log("Copied dev.db to /tmp/dev.db for Vercel Serverless read-write access");
-        }
+      if (fs.existsSync(/*turbopackIgnore: true*/ candidate)) {
+        fs.copyFileSync(candidate, targetDb);
+        console.log(`Successfully copied ${candidate} -> /tmp/dev.db`);
         return "file:/tmp/dev.db";
       }
     } catch (e) {
-      console.error("Failed to copy dev.db to /tmp, falling back to local file:", e);
+      console.warn(`Could not copy from candidate ${candidate}:`, e);
     }
+  }
+
+  // Fallback if targetDb was created or if running locally
+  if (fs.existsSync(targetDb)) {
+    return "file:/tmp/dev.db";
   }
 
   return "file:./dev.db";
