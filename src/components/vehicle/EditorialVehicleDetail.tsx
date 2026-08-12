@@ -259,7 +259,7 @@ export function EditorialVehicleDetail({
   // Generate synthetic trim list if variantCount > 1
   const generateTrims = () => {
     const n = Math.max(1, vehicle.variantCount);
-    const trims = [];
+    const trims: any[] = [];
     const parts = vehicle.name.split(/ to /i);
     const first = parts[0] || "Standard";
     const last = parts.length > 1 ? parts[parts.length - 1] : first;

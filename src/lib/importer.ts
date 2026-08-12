@@ -229,7 +229,7 @@ export async function importCatalog(
       }
 
       // 3.5. Resolve or create Facelift if mid-cycle update
-      let facelift = null;
+      let facelift: any = null;
       const isFaceliftYear =
         (item.model === "Corolla" && item.releaseYear >= 2017) ||
         (item.model === "Civic" && item.releaseYear >= 2019) ||
