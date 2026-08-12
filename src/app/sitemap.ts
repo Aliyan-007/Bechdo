@@ -45,7 +45,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     select: { slug: true },
   });
 
-  const brandRoutes: MetadataRoute.Sitemap = brands.map((b) => ({
+  const brandRoutes: MetadataRoute.Sitemap = brands.map((b: any) => ({
     url: `${baseUrl}/brands/${b.slug}`,
     lastModified: new Date(),
     changeFrequency: "weekly" as const,
@@ -69,7 +69,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   });
 
-  const variantRoutes: MetadataRoute.Sitemap = variants.map((v) => ({
+  const variantRoutes: MetadataRoute.Sitemap = variants.map((v: any) => ({
     url: `${baseUrl}/cars/${v.model.brand.slug}/${v.model.slug}/${v.id}`,
     lastModified: v.lastVerified ? new Date(v.lastVerified) : new Date(),
     changeFrequency: "weekly" as const,

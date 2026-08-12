@@ -95,7 +95,7 @@ export default async function RootLayout({
     },
   });
 
-  const allVehicles = rawVariants.map((v) => ({
+  const allVehicles = rawVariants.map((v: any) => ({
     id: v.id,
     brand: v.model.brand.name,
     model: v.model.name,
@@ -105,7 +105,7 @@ export default async function RootLayout({
     priceMinLakh: v.priceMinLakh,
     priceMaxLakh: v.priceMaxLakh,
     badge: v.badge,
-    aliases: v.aliases.map((a) => a.alias),
+    aliases: v.aliases.map((a: any) => a.alias),
     image: v.images[0]?.url || null,
   }));
 

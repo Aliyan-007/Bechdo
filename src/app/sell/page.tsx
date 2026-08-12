@@ -50,11 +50,11 @@ export default async function SellPage() {
     }),
   ]);
 
-  const mappedBrands = brands.map((b) => ({
+  const mappedBrands = brands.map((b: any) => ({
     name: b.name,
-    models: b.models.map((m) => ({
+    models: b.models.map((m: any) => ({
       name: m.name,
-      variants: m.variants.map((v) => ({
+      variants: m.variants.map((v: any) => ({
         id: v.id,
         name: v.name,
         priceMinLakh: v.priceMinLakh,
@@ -63,7 +63,7 @@ export default async function SellPage() {
     })),
   }));
 
-  const mappedListings = usedListings.map((u) => ({
+  const mappedListings = usedListings.map((u: any) => ({
     id: u.id,
     brand: u.variant.model.brand.name,
     model: u.variant.model.name,

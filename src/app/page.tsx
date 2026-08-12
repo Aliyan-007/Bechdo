@@ -105,7 +105,7 @@ export default async function HomePage() {
   const popular = popularVariants.map(mapVehicle);
   const recentlyAdded = recentVariants.map(mapVehicle);
 
-  const brandItems = rawBrands.map((b) => ({
+  const brandItems = rawBrands.map((b: any) => ({
     id: b.id,
     name: b.name,
     slug: b.slug,
